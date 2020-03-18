@@ -2,7 +2,7 @@
 
 ## Git Workflow
 
-- We are using the GitFlow Process for branch management.
+- We are using the GitFlow Process for branch management!
 
 1. `git branch` -- Confirm you are on develop branch first, if not switch to it.
 1. `git fetch` -- Grab latest metadata from develop to your local machine.
