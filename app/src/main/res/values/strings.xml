@@ -1,7 +1,3 @@
 <resources>
-    <string name="app_name">FoodieFriendFinder</string>
-    <string name="login_string">Login</string>
-    <string name="create_user_string">Create User</string>
-    <string name="sign_in_string">Sign In</string>
-    <string name="username_string">Username</string>
+    <string name="app_name">Foodie Friend Finder</string>
 </resources>
