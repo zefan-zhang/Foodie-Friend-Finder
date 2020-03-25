@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "744567066204",
+    "firebase_url": "https://foodiefriendfinder.firebaseio.com",
+    "project_id": "foodiefriendfinder",
+    "storage_bucket": "foodiefriendfinder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744567066204:android:fbfb17913230f194842099",
+        "android_client_info": {
+          "package_name": "com.ebookfrenzy.foodiefriendfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744567066204-ojedsvtqmok6sh0j4m6ocf5rbjda8b12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJqSWnqmCg6Kxy5gdw9BVIMTGxYqa7Hr0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744567066204-ojedsvtqmok6sh0j4m6ocf5rbjda8b12.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
