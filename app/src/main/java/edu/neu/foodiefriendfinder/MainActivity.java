@@ -18,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         createUserButton = findViewById(R.id.createUserButton);
+        createUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToCreateActivity();
+            }
+        });
 
         loginButton = findViewById(R.id.LoginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void moveToLoginActivity() {
         Intent findPrimeActivity = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(findPrimeActivity);
+
+    }
+
+    private void moveToCreateActivity() {
+        Intent findPrimeActivity = new Intent(MainActivity.this, CreateUserActivity.class);
         startActivity(findPrimeActivity);
 
     }
