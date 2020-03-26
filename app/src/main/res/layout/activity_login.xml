@@ -7,8 +7,8 @@
         android:id="@+id/Sign_in"
         android:layout_width="wrap_content"
         android:layout_height="75dp"
-        android:layout_marginTop="52dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="52dp"
         android:text="@string/sign_in_string"
         android:textSize="55sp" />
 
@@ -16,15 +16,15 @@
         android:id="@+id/usernameInput"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-
         android:layout_alignStart="@id/Sign_in"
+
         android:layout_marginTop="148dp"
+        android:layout_marginEnd="32dp"
+        android:autofillHints=""
         android:hint="@string/username_string"
-        android:textSize="35sp"
 
         android:inputType="textPersonName"
-        android:autofillHints="" />
+        android:textSize="35sp" />
 
     <Button
         android:id="@+id/SignInButton"
