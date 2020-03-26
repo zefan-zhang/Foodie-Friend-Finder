@@ -15,27 +15,29 @@ public class User {
     public String dob;
     public List<String> languages;
     public String gender;
+    private String email;
 
     public User() {
     }
 
-    public User(String userId, String firstName, String lastName, String phone,
+    public User(String userId, String firstName, String lastName, String email, String phone,
                 String dob, String gender) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phone = phone;
+        this.email = email;
         this.cuisine = cuisine;
         this.dob = dob;
         this.languages = languages;
         this.gender = gender;
     }
 
-    public User(String userId, String firstName, String lastName, String phone,
+    public User(String userId, String firstName, String lastName, String email, String phone,
                 List<String> cuisine, String dob, List<String> languages, String gender) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.phone = phone;
         this.cuisine = cuisine;
         this.dob = dob;
@@ -123,4 +125,11 @@ public class User {
         this.cuisine.remove(cuisine);
     }
 
+    public String getEmaill() {
+        return email;
+    }
+
+    public void setEmaill(String emaill) {
+        this.email = emaill;
+    }
 }

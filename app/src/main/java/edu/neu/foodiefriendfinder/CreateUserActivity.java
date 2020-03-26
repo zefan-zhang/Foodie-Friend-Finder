@@ -29,6 +29,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private EditText userLastName;
     private EditText userPhone;
     private EditText userDob;
+    private EditText userEmail;
 
     private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference();
 
@@ -42,6 +43,7 @@ public class CreateUserActivity extends AppCompatActivity {
         userLastName = findViewById(R.id.lastName);
         userPhone = findViewById(R.id.phone);
         userDob = findViewById(R.id.dobId);
+        userEmail = findViewById(R.id.emailId);
 
         cuisineDropDown = (Spinner) findViewById(R.id.cuisineSpinner);
         genderDropDown = (Spinner) findViewById(R.id.genderSpinner);
@@ -77,12 +79,13 @@ public class CreateUserActivity extends AppCompatActivity {
         String id = userId.getText().toString();
         String firstName = userFirstName.getText().toString();
         String lastName = userLastName.getText().toString();
+        String email = userEmail.getText().toString();
         String phone = userPhone.getText().toString();
         String dob = userDob.getText().toString();
         String gender = genderDropDown.getSelectedItem().toString();
-        if (!id.equals("") && !firstName.equals("") && !lastName.equals("") && !phone.equals("")
-                && !dob.equals("") && !gender.equals("")) {
-            User newUser = new User(id, firstName, lastName, phone, dob, gender);
+        if (!id.equals("") && !firstName.equals("") && !lastName.equals("") && !email.equals("") &&
+                !phone.equals("") && !dob.equals("") && !gender.equals("")) {
+            User newUser = new User(id, firstName, lastName, email, phone, dob, gender);
             usersReference.child("Users").child(id).setValue(newUser);
             Toast.makeText(this, "Success!!!", Toast.LENGTH_SHORT).show();
         } else {

@@ -16,6 +16,7 @@
     <string name="gender">Gender</string>
     <string name="mm_dd_yyyy">MM-DD-YYYY</string>
     <string name="go_login">Go Login</string>
+    <string name="email">Email</string>
 
     <string-array name="genderOptions">
         <item></item>
