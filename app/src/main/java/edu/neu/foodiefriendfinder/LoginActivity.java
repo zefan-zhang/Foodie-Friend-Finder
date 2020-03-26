@@ -1,4 +1,4 @@
-package com.ebookfrenzy.foodiefriendfinder;
+package edu.neu.foodiefriendfinder;
 
 import android.os.Bundle;
 import android.widget.Button;
