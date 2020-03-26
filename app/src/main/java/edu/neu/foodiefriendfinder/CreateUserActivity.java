@@ -3,17 +3,8 @@ package edu.neu.foodiefriendfinder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
-import com.androidbuts.multispinnerfilter.KeyPairBoolData;
-import com.androidbuts.multispinnerfilter.MultiSpinner;
-import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CreateUserActivity extends AppCompatActivity {
 
