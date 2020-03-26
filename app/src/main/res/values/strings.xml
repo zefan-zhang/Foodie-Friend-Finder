@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">Foodie Friend Finder</string>
+    <string name="userid">UserId</string>
+    <string name="firstname">FirstName</string>
+    <string name="lastname">LastName</string>
+    <string name="phone">Phone</string>
+    <string name="cuisine">Cuisine</string>
+    <string name="dob">DOB</string>
+    <string name="languages">Languages</string>
+    <string name="button">Button</string>
+    <string name="register">Register</string>
     <string name="sign_in_string">Sign In</string>
     <string name="username_string">username</string>
     <string name="login_string">Login</string>
