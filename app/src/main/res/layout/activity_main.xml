@@ -32,4 +32,5 @@
         android:text="@string/login_string"
         android:textColor="@android:color/white"
         android:textSize="30sp" />
+        
 </RelativeLayout>
