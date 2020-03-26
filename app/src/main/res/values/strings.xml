@@ -14,11 +14,14 @@
     <string name="login_string">Login</string>
     <string name="create_user_string">Create User</string>
     <string name="gender">Gender</string>
+    <string name="mm_dd_yyyy">MM-DD-YYYY</string>
+    <string name="go_login">Go Login</string>
 
     <string-array name="genderOptions">
-        <item>Non-binary / third gender</item>
+        <item></item>
         <item>Female</item>
         <item>Male</item>
+        <item>Non-binary / third gender</item>
         <item>Prefer to self-describe</item>
         <item>Prefer not to say</item>
     </string-array>
