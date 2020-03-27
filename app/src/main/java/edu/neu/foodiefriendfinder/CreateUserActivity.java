@@ -1,9 +1,9 @@
 package edu.neu.foodiefriendfinder;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,10 +27,12 @@ import edu.neu.foodiefriendfinder.models.User;
 
 public class CreateUserActivity extends AppCompatActivity {
 
-    private boolean[] selectedItems;
-    private boolean[] clickedItem;
+//    private boolean[] selectedItems;
+//    private boolean[] clickedItem;
 
-    private ArrayList<Integer> userItems = new ArrayList<>();
+//    private ArrayList<Integer> userItems = new ArrayList<>();
+
+    private DialogFragment languageDialog;
 
     private Spinner cuisineDropDown;
     private Spinner languagesDropDown;
@@ -42,7 +45,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private EditText userDob;
     private EditText userEmail;
 
-    private String[] languageOptions;
+//    private String[] languageOptions;
 
     private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference();
 
@@ -71,13 +74,13 @@ public class CreateUserActivity extends AppCompatActivity {
 
         languagesDropDown.setOnTouchListener(spinnerOnTouch);
         languagesDropDown.setOnKeyListener(spinnerOnKey);
+        languageDialog = new LanguageMultiSelect();
 
 
         Button register = findViewById(R.id.registerButton);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 createNewUser();
             }
         });
@@ -97,7 +100,7 @@ public class CreateUserActivity extends AppCompatActivity {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                multiCheckBoxBuilder();
+                openLanguageDialog(v);
                 System.out.println("Called multicheckbox");
             }
             return true;
@@ -115,16 +118,20 @@ public class CreateUserActivity extends AppCompatActivity {
         }
     };
 
-    private void multiCheckBoxBuilder(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select your language");
+    public void openLanguageDialog(View view) {
+        languageDialog.show(getSupportFragmentManager(), "languagesDialog");
+    }
 
-        languageOptions = getResources().getStringArray(R.array.languageOptions);
-        selectedItems = new boolean[languageOptions.length];
-        builder.setCancelable(false);
-        builder.setMultiChoiceItems(languageOptions, selectedItems, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+//    private void multiCheckBoxBuilder(Bundle savedInstanceState) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Select your language");
+//
+//        languageOptions = getResources().getStringArray(R.array.languageOptions);
+//        selectedItems = new boolean[languageOptions.length];
+//        builder.setCancelable(false);
+//        builder.setMultiChoiceItems(languageOptions, selectedItems, new DialogInterface.OnMultiChoiceClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 //                if (isChecked) {
 //                    if (!userItems.contains(which)) {
 //                        userItems.add(which);
@@ -133,14 +140,14 @@ public class CreateUserActivity extends AppCompatActivity {
 //                else if (userItems.contains(which)) {
 //                    userItems.remove(which);
 //                }
-
-                clickedItem[which] = isChecked;
-            }
-        });
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+//
+//                clickedItem[which] = isChecked;
+//            }
+//        });
+//
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
 //                String option = "";
 //                for (int i = 0; i < userItems.size(); i++) {
 //                    option = option + languageOptions[userItems.get(i)];
@@ -149,30 +156,30 @@ public class CreateUserActivity extends AppCompatActivity {
 //                        option = option + ", ";
 //                    }
 //                }
-                selectedItems = clickedItem;
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                for (int i = 0; i < selectedItems.length; i++) {
-                    selectedItems[i] = false;
-                    userItems.clear();
-                    Toast.makeText(getApplicationContext(),"Cleared all", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
+//                selectedItems = clickedItem;
+//            }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                for (int i = 0; i < selectedItems.length; i++) {
+//                    selectedItems[i] = false;
+//                    userItems.clear();
+//                    Toast.makeText(getApplicationContext(),"Cleared all", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//    }
 
 
     private void createNewUser() {
