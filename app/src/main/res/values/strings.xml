@@ -26,4 +26,17 @@
         <item>Prefer to self-describe</item>
         <item>Prefer not to say</item>
     </string-array>
+
+    <string-array name="languageOptions">
+        <item></item>
+        <item>English</item>
+        <item>Mandarin</item>
+        <item>Cantonese</item>
+        <item>Spanish</item>
+        <item>Japanese</item>
+        <item>Italian</item>
+        <item>Korean</item>
+        <item>Vietnamese</item>
+    </string-array>
+
 </resources>
