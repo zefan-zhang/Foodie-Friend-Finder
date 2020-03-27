@@ -15,7 +15,7 @@ public class User {
     public String dob;
     public List<String> languages;
     public String gender;
-    private String email;
+    public String email;
 
     public User() {
     }
@@ -26,9 +26,8 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.cuisine = cuisine;
+        this.phone = phone;
         this.dob = dob;
-        this.languages = languages;
         this.gender = gender;
     }
 
@@ -125,11 +124,11 @@ public class User {
         this.cuisine.remove(cuisine);
     }
 
-    public String getEmaill() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmaill(String emaill) {
-        this.email = emaill;
+    public void setEmaill(String email) {
+        this.email = email;
     }
 }

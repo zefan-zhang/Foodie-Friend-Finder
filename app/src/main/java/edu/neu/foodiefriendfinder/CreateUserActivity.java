@@ -14,8 +14,6 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
-
 import edu.neu.foodiefriendfinder.models.User;
 
 public class CreateUserActivity extends AppCompatActivity {
@@ -31,12 +29,16 @@ public class CreateUserActivity extends AppCompatActivity {
     private EditText userDob;
     private EditText userEmail;
 
-    private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference();
+
+    private DatabaseReference usersReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+
+        usersReference = FirebaseDatabase.getInstance().getReference();
 
         userId = findViewById(R.id.userId);
         userFirstName = findViewById(R.id.firstName);
@@ -98,4 +100,5 @@ public class CreateUserActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
 }
