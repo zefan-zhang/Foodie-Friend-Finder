@@ -1,22 +1,21 @@
 package edu.neu.foodiefriendfinder;
 
-import android.app.Activity;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,18 +24,25 @@ import java.util.ArrayList;
 
 import edu.neu.foodiefriendfinder.models.User;
 
+import static edu.neu.foodiefriendfinder.LoginActivity.loginUser;
+
 public class CreateUserActivity extends AppCompatActivity {
 
-//    private boolean[] selectedItems;
-//    private boolean[] clickedItem;
-
-//    private ArrayList<Integer> userItems = new ArrayList<>();
-
-    private DialogFragment languageDialog;
-
-    private Spinner cuisineDropDown;
-    private Spinner languagesDropDown;
     private Spinner genderDropDown;
+
+
+    private TextView languageSelected;
+    private TextView cuisineSelected;
+
+    private String[] languagesBank;
+    private boolean[] checkedLanguages;
+    private ArrayList<Integer> languagesIndex = new ArrayList<>();
+    private ArrayList<String> userLanguages = new ArrayList<>();
+
+    private String[] cuisineBank;
+    private boolean[] checkedCuisine;
+    private ArrayList<Integer> cuisineIndex = new ArrayList<>();
+    private ArrayList<String> userCuisine = new ArrayList<>();
 
     private EditText userId;
     private EditText userFirstName;
@@ -45,14 +51,16 @@ public class CreateUserActivity extends AppCompatActivity {
     private EditText userDob;
     private EditText userEmail;
 
-//    private String[] languageOptions;
 
-    private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference usersReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+
+        usersReference = FirebaseDatabase.getInstance().getReference();
 
         userId = findViewById(R.id.userId);
         userFirstName = findViewById(R.id.firstName);
@@ -61,10 +69,11 @@ public class CreateUserActivity extends AppCompatActivity {
         userDob = findViewById(R.id.dobId);
         userEmail = findViewById(R.id.emailId);
 
-        cuisineDropDown = (Spinner) findViewById(R.id.cuisineSpinner);
-        genderDropDown = (Spinner) findViewById(R.id.genderSpinner);
-        languagesDropDown = (Spinner) findViewById(R.id.languagesSpinner);
+        genderDropDown = findViewById(R.id.genderSpinner);
+        languageSelected = findViewById(R.id.languageId);
+        cuisineSelected = findViewById(R.id.cuisineId);
 
+        // gender select
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(CreateUserActivity.this,
                 android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.genderOptions));
@@ -72,11 +81,33 @@ public class CreateUserActivity extends AppCompatActivity {
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderDropDown.setAdapter(myAdapter);
 
-        languagesDropDown.setOnTouchListener(spinnerOnTouch);
-        languagesDropDown.setOnKeyListener(spinnerOnKey);
-        languageDialog = new LanguageMultiSelect();
+
+        // cuisine select
+        cuisineBank = getResources().getStringArray(R.array.cuisineOptions);
+        checkedCuisine = new boolean[cuisineBank.length];
+
+        ImageButton cuisineSelection = findViewById(R.id.selectCuisineButton);
+        cuisineSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeSelectDialog(cuisineBank, checkedCuisine, cuisineIndex, userCuisine, cuisineSelected).show();
+            }
+        });
+
+        // language select
+        languagesBank = getResources().getStringArray(R.array.languageOptions);
+        checkedLanguages = new boolean[languagesBank.length];
+
+        ImageButton languageSelection = findViewById(R.id.languageSelectButton);
+        languageSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeSelectDialog(languagesBank, checkedLanguages, languagesIndex, userLanguages, languageSelected).show();
+            }
+        });
 
 
+        // create user
         Button register = findViewById(R.id.registerButton);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +116,7 @@ public class CreateUserActivity extends AppCompatActivity {
             }
         });
 
+        // go login
         Button goLogin = findViewById(R.id.goLoginButton);
         goLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,95 +124,46 @@ public class CreateUserActivity extends AppCompatActivity {
                 goLoginActivity();
             }
         });
-
     }
 
-    // https://stackoverflow.com/questions/3928071/setting-a-spinner-onclicklistener-in-android
-    private View.OnTouchListener spinnerOnTouch = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                openLanguageDialog(v);
-                System.out.println("Called multicheckbox");
-            }
-            return true;
-        }
-    };
 
-    private static View.OnKeyListener spinnerOnKey = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    };
 
-    public void openLanguageDialog(View view) {
-        languageDialog.show(getSupportFragmentManager(), "languagesDialog");
+    private Dialog makeSelectDialog(final String[] itemBank, boolean[] checkedItems,
+                                        final ArrayList<Integer> itemIndex,
+                                        final ArrayList<String> userItems,
+                                        final TextView itemSelected) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CreateUserActivity.this);
+        dialogBuilder.setMultiChoiceItems(itemBank, checkedItems,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            itemIndex.add(which);
+                        } else {
+                            itemIndex.remove(Integer.valueOf(which));
+                        }
+
+                    }
+                });
+
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String language = "";
+                for (int i = 0; i < itemIndex.size(); i++) {
+                    language += itemBank[itemIndex.get(i)];
+                    userItems.add(itemBank[itemIndex.get(i)]);
+                    if (i != itemIndex.size() - 1) {
+                        language += ", ";
+                    }
+                }
+                itemSelected.setText(language);
+            }
+        });
+        AlertDialog dialog = dialogBuilder.create();
+        return dialog;
     }
-
-//    private void multiCheckBoxBuilder(Bundle savedInstanceState) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Select your language");
-//
-//        languageOptions = getResources().getStringArray(R.array.languageOptions);
-//        selectedItems = new boolean[languageOptions.length];
-//        builder.setCancelable(false);
-//        builder.setMultiChoiceItems(languageOptions, selectedItems, new DialogInterface.OnMultiChoiceClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-//                if (isChecked) {
-//                    if (!userItems.contains(which)) {
-//                        userItems.add(which);
-//                    }
-//                }
-//                else if (userItems.contains(which)) {
-//                    userItems.remove(which);
-//                }
-//
-//                clickedItem[which] = isChecked;
-//            }
-//        });
-//
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String option = "";
-//                for (int i = 0; i < userItems.size(); i++) {
-//                    option = option + languageOptions[userItems.get(i)];
-//
-//                    if (i != userItems.size() -1 ) {
-//                        option = option + ", ";
-//                    }
-//                }
-//                selectedItems = clickedItem;
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                for (int i = 0; i < selectedItems.length; i++) {
-//                    selectedItems[i] = false;
-//                    userItems.clear();
-//                    Toast.makeText(getApplicationContext(),"Cleared all", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-//    }
-
 
     private void createNewUser() {
         String id = userId.getText().toString();
@@ -191,12 +174,13 @@ public class CreateUserActivity extends AppCompatActivity {
         String dob = userDob.getText().toString();
         String gender = genderDropDown.getSelectedItem().toString();
         if (!id.equals("") && !firstName.equals("") && !lastName.equals("") && !email.equals("") &&
-                !phone.equals("") && !dob.equals("") && !gender.equals("")) {
-            User newUser = new User(id, firstName, lastName, email, phone, dob, gender);
+                !phone.equals("") && !dob.equals("") && !gender.equals("") && userCuisine.size() > 0
+        && userLanguages.size() > 0) {
+            User newUser = new User(id, firstName, lastName, email, phone, userCuisine, dob, userLanguages, gender);
             usersReference.child("Users").child(id).setValue(newUser);
             Toast.makeText(this, "Success!!!", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Something unfilled, please check!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Something unfilled!!!", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -205,4 +189,5 @@ public class CreateUserActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
 }

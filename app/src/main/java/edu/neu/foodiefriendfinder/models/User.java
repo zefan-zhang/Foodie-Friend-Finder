@@ -7,29 +7,17 @@ import java.util.List;
 @IgnoreExtraProperties
 public class User {
 
-    public String userId;
-    public String firstName;
-    public String lastName;
-    public String phone;
-    public List<String> cuisine;
-    public String dob;
-    public List<String> languages;
-    public String gender;
+    private String userId;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private List<String> cuisine;
+    private String dob;
+    private List<String> languages;
+    private String gender;
     private String email;
 
     public User() {
-    }
-
-    public User(String userId, String firstName, String lastName, String email, String phone,
-                String dob, String gender) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.cuisine = cuisine;
-        this.dob = dob;
-        this.languages = languages;
-        this.gender = gender;
     }
 
     public User(String userId, String firstName, String lastName, String email, String phone,
@@ -125,11 +113,11 @@ public class User {
         this.cuisine.remove(cuisine);
     }
 
-    public String getEmaill() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmaill(String emaill) {
-        this.email = emaill;
+    public void setEmaill(String email) {
+        this.email = email;
     }
 }

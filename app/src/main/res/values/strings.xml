@@ -17,18 +17,30 @@
     <string name="mm_dd_yyyy">MM-DD-YYYY</string>
     <string name="go_login">Go Login</string>
     <string name="email">Email</string>
+    <string name="select_your_cuisine">select your cuisine</string>
 
     <string-array name="genderOptions">
         <item></item>
         <item>Female</item>
         <item>Male</item>
-        <item>Non-binary / third gender</item>
-        <item>Prefer to self-describe</item>
-        <item>Prefer not to say</item>
+        <item>Other</item>
     </string-array>
 
-    <string-array name="languageOptions">
-        <item></item>
+    <string-array name="cuisineOptions">
+        <item>Chinese food</item>
+        <item>MIndian cuisine</item>
+        <item>Japanese Cuisine</item>
+        <item>Italian food</item>
+        <item>Mexican food</item>
+        <item>Thai food</item>
+        <item>Greek food</item>
+        <item>American food</item>
+        <item>Spanish Cuisine</item>
+        <item>Vietnamese food</item>
+        <item>Korea Food</item>
+    </string-array>
+
+    <string-array name="languageOptions">s
         <item>English</item>
         <item>Mandarin</item>
         <item>Cantonese</item>
