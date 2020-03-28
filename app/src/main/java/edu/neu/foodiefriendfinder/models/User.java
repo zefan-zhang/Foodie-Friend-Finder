@@ -7,28 +7,17 @@ import java.util.List;
 @IgnoreExtraProperties
 public class User {
 
-    public String userId;
-    public String firstName;
-    public String lastName;
-    public String phone;
-    public List<String> cuisine;
-    public String dob;
-    public List<String> languages;
-    public String gender;
-    public String email;
+    private String userId;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private List<String> cuisine;
+    private String dob;
+    private List<String> languages;
+    private String gender;
+    private String email;
 
     public User() {
-    }
-
-    public User(String userId, String firstName, String lastName, String email, String phone,
-                String dob, String gender) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.dob = dob;
-        this.gender = gender;
     }
 
     public User(String userId, String firstName, String lastName, String email, String phone,
