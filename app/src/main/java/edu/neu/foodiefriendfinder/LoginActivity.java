@@ -66,8 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (count == users.size()) {
                             Toast.makeText(LoginActivity.this, "incorrect username", Toast.LENGTH_SHORT).show();
                         } else {
-                            Intent intent = new Intent(LoginActivity.this, testActivity.class);
-                            startActivity(intent);
+                            // go to another activity
                         }
 
                     }
