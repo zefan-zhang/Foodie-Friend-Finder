@@ -57,4 +57,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
+
+    private void moveToCreateActivity() {
+        Intent findPrimeActivity = new Intent(MainActivity.this, CreateUserActivity.class);
+        startActivity(findPrimeActivity);
+
+    }
 }
