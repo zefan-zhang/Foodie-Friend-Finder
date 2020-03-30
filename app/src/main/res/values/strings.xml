@@ -18,6 +18,11 @@
     <string name="go_login">Go Login</string>
     <string name="email">Email</string>
     <string name="select_your_cuisine">select your cuisine</string>
+    <string name="search_criteria">Search Criteria</string>
+    <string name="cusine">Cusine</string>
+    <string name="price">Price</string>
+    <string name="search_results">Search Results</string>
+    <string name="search">Search</string>
 
     <string-array name="genderOptions">
         <item></item>
