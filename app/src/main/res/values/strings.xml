@@ -13,4 +13,66 @@
     <string name="username_string">username</string>
     <string name="login_string">Login</string>
     <string name="create_user_string">Create User</string>
+    <string name="gender">Gender</string>
+    <string name="mm_dd_yyyy">MM-DD-YYYY</string>
+    <string name="go_login">Go Login</string>
+    <string name="email">Email</string>
+    <string name="select_your_cuisine">select your cuisine</string>
+    <string name="search_criteria">Search Criteria</string>
+    <string name="cusine">Cusine</string>
+    <string name="price">Price</string>
+    <string name="search_results">Search Results</string>
+    <string name="search">Search</string>
+    <string name="distance">Distance</string>
+    <string name="cusine_">Cusine:</string>
+    <string name="distance_">Distance:</string>
+    <string name="languages_">Languages:</string>
+    <string name="price_">Price:</string>
+
+    <string-array name="genderOptions">
+        <item></item>
+        <item>Female</item>
+        <item>Male</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="distanceOptions">
+        <item>5 mi</item>
+        <item>10 mi</item>
+        <item>25 mi</item>
+        <item>50 mi</item>
+    </string-array>
+
+    <string-array name="priceOptions">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="cuisineOptions">
+        <item>Chinese food</item>
+        <item>Indian cuisine</item>
+        <item>Japanese Cuisine</item>
+        <item>Italian food</item>
+        <item>Mexican food</item>
+        <item>Thai food</item>
+        <item>Greek food</item>
+        <item>American food</item>
+        <item>Spanish Cuisine</item>
+        <item>Vietnamese food</item>
+        <item>Korea Food</item>
+    </string-array>
+
+    <string-array name="languageOptions">s
+        <item>English</item>
+        <item>Mandarin</item>
+        <item>Cantonese</item>
+        <item>Spanish</item>
+        <item>Japanese</item>
+        <item>Italian</item>
+        <item>Korean</item>
+        <item>Vietnamese</item>
+    </string-array>
+
 </resources>
