@@ -12,7 +12,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class LatitudeAndLongitude implements LocationListener {
@@ -20,25 +19,24 @@ public class LatitudeAndLongitude implements LocationListener {
     Context context;
 
 
-    LatitudeAndLongitude(Context c){
+    LatitudeAndLongitude(Context c) {
         context = c;
     }
 
     Location getLocation() {
 
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Permission not granted", Toast.LENGTH_LONG).show();
-        return null;
-    }
+            return null;
+        }
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         boolean isGPSEnabled = locationManager.isProviderEnabled((LocationManager.GPS_PROVIDER));
 
-        if(isGPSEnabled){
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,0,this);
+        if (isGPSEnabled) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, this);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             return location;
-        }
-        else {
+        } else {
             Toast.makeText(context, "Please turn on GPS", Toast.LENGTH_LONG).show();
 
         }
@@ -66,5 +64,3 @@ public class LatitudeAndLongitude implements LocationListener {
     }
 
 }
-
-

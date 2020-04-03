@@ -1,5 +1,6 @@
 package edu.neu.foodiefriendfinder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -13,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -54,6 +56,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private Button searchButton;
 
+    private LocationListener locationListener;
+    private LocationManager locationManager;
+
     private String latitude;
     private String longitude;
 
@@ -66,6 +71,9 @@ public class SearchActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Build.VERSION.SDK_INT <= 24) {
+                    LatLonOld();
+                }
                 LatLon();
             }
         });
@@ -89,7 +97,7 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         //Radius selection
-        distanceBank= getResources().getStringArray(R.array.distanceOptions);
+        distanceBank = getResources().getStringArray(R.array.distanceOptions);
         checkedDistance = new boolean[distanceBank.length];
 
         ImageButton distanceSelection = findViewById(R.id.selectDistanceButton);
@@ -164,8 +172,110 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
+    private void LatLon() {
 
-    private void LatLon(){
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(SearchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        } else {
+            getCurrentLocation();
+        }
+
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        } else {
+            Toast.makeText(this, "No Access to GPS", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void getCurrentLocation() {
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        final boolean isGPSOn = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (isGPSOn) {
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    String coordinates = "Latitude: " + location.getLatitude() + "\n" +
+                            "Longitude: " + location.getLongitude();
+
+
+                    Toast.makeText(SearchActivity.this, coordinates, Toast.LENGTH_LONG).show();
+
+                    locationManager.removeUpdates(locationListener);
+
+
+                    double lat = location.getLatitude();
+                    latitude = Double.toString(lat);
+
+                    double lon = location.getLongitude();
+                    longitude = Double.toString(lon);
+
+
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            };
+        }
+
+        if (ActivityCompat.checkSelfPermission(SearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(SearchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else {
+
+                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                assert lm != null;
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                            String coordinates = "Latitude: " + location.getLatitude() + "\n" +
+                                    "Longitude: " + location.getLongitude();
+
+
+                            Toast.makeText(SearchActivity.this, coordinates, Toast.LENGTH_LONG).show();
+
+                            locationManager.removeUpdates(locationListener);
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+
+                    }
+                });
+        }
+    }
+
+    private void LatLonOld(){
         LatitudeAndLongitude latitudeAndLongitude = new LatitudeAndLongitude(getApplicationContext());
         Location location = latitudeAndLongitude.getLocation();
 
@@ -179,5 +289,6 @@ public class SearchActivity extends AppCompatActivity {
             Toast.makeText(this, "lat: " + latitude + "\nlon: " + longitude, Toast.LENGTH_LONG ).show();
         }
     }
-
 }
+
+
