@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -157,12 +158,22 @@ public class SearchActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new RestaurantsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(SearchActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-                System.out.println(selectedRestaurants.size());
-                YelpRestaurant selectedRes = adapter.getRestanrantList().get(position);
-                if (!selectedRestaurants.contains(selectedRes)) {
-                    selectedRestaurants.add(selectedRes);
+
+                YelpRestaurant selectedRes = adapter.getRestaurantList().get(position);
+                if (selectedRestaurants.size() < 3) {
+                    if (!selectedRestaurants.contains(selectedRes)) {
+                        selectedRestaurants.add(selectedRes);
+                    }
+                    else {
+                        selectedRestaurants.remove(selectedRes);
+                    }
+                } else {
+                    // go to next activity
+                    Toast.makeText(SearchActivity.this, "Please select no more than restaurants", Toast.LENGTH_SHORT).show();
                 }
+
+                String string = "You picked " + selectedRestaurants.size() + " restaurants";
+                Toast.makeText(SearchActivity.this, string, Toast.LENGTH_SHORT).show();
             }
         });
     }

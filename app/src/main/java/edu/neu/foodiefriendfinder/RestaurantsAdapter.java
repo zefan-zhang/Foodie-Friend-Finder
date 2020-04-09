@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -70,6 +72,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         TextView distance;
         TextView price;
         ImageView imageView;
+        CheckedTextView checkedTextView;
 
         public ViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -81,7 +84,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
             distance = itemView.findViewById(R.id.restaurantDistan);
             price = itemView.findViewById(R.id.priceRange);
             imageView = itemView.findViewById(R.id.imageView);
-
+            checkedTextView = itemView.findViewById(R.id.checkedTextView);
 
 
 
@@ -92,9 +95,13 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
+                            if (!checkedTextView.isChecked()) {
+                                checkedTextView.setChecked(true);
+                            } else {
+                                checkedTextView.setChecked(false);
+                            }
                         }
                     }
-
                 }
             });
         }
@@ -115,10 +122,10 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
 
     @Override
     public int getItemCount() {
-        return restaurantList == null? 0 : restaurantList.size();
+        return restaurantList == null ? 0 : restaurantList.size();
     }
 
-    public List<YelpRestaurant> getRestanrantList() {
+    public List<YelpRestaurant> getRestaurantList() {
         return this.restaurantList;
     }
- }
+}
