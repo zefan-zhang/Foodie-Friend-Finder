@@ -46,11 +46,10 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userRef.child("Users").addValueEventListener(new ValueEventListener() {
+                userRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-
                         for (DataSnapshot child: children) {
                             User user = child.getValue(User.class);
                             users.add(user);
@@ -63,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                 String currentID = loginUser.getUserId();
                                 userRef.child("Users").child(currentID).child("isOnline").setValue(true);
-
                                 Toast.makeText(LoginActivity.this, "Login", Toast.LENGTH_SHORT).show();
                                 break;
                             }

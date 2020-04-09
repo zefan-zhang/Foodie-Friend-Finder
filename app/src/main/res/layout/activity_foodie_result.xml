@@ -7,7 +7,7 @@
     tools:context=".FoodieResultActivity">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/testShow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/testShow" />
 
     <Button
         android:id="@+id/searchFoodie"
@@ -35,5 +35,5 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/testShow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

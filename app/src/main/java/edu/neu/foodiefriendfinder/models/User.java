@@ -2,6 +2,7 @@ package edu.neu.foodiefriendfinder.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @IgnoreExtraProperties
@@ -17,7 +18,7 @@ public class User {
     private String gender;
     private String email;
     private boolean isOnline;
-    private List<YelpRestaurant> interestedRestaurants;
+    private List<String> interestedRestaurants;
 
     public User() {
     }
@@ -34,6 +35,7 @@ public class User {
         this.languages = languages;
         this.gender = gender;
         this.isOnline = false;
+        this.interestedRestaurants = new ArrayList<String>();
     }
 
     public String getUserId() {
@@ -136,11 +138,11 @@ public class User {
         this.email = email;
     }
 
-    public List<YelpRestaurant> getInterestedRestaurants() {
+    public List<String> getInterestedRestaurants() {
         return interestedRestaurants;
     }
 
-    public void setInterestedRestaurants(List<YelpRestaurant> interestedRestaurants) {
+    public void setInterestedRestaurants(List<String> interestedRestaurants) {
         this.interestedRestaurants = interestedRestaurants;
     }
 

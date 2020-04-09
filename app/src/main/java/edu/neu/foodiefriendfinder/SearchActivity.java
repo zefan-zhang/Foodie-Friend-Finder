@@ -7,16 +7,12 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,14 +22,12 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.neu.foodiefriendfinder.models.SelectableRestaurant;
 import edu.neu.foodiefriendfinder.models.YelpDataClass;
 import edu.neu.foodiefriendfinder.models.YelpRestaurant;
 import edu.neu.foodiefriendfinder.yelpData.YelpService;
@@ -66,7 +60,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<YelpRestaurant> selectedRestaurants = new ArrayList<YelpRestaurant>();
 
-    private DatabaseReference userRef;
+    private DatabaseReference userref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +145,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        userRef = FirebaseDatabase.getInstance().getReference();
-
         // go matched foodies activity
         Button go_match = findViewById(R.id.match_foodie);
         go_match.setOnClickListener(new View.OnClickListener() {
@@ -160,8 +152,8 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (isValidSelected()) {
                     updateUserSelectedResr();
-                    Intent intent = new Intent(SearchActivity.this, FoodieResultActivity.class);
-                    startActivity(intent);
+                    Intent foodieResultActivity = new Intent(SearchActivity.this, FoodieResultActivity.class);
+                    startActivity(foodieResultActivity);
                 }
             }
         });
@@ -355,7 +347,13 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void updateUserSelectedResr() {
-        loginUser.setInterestedRestaurants(selectedRestaurants);
-        userRef.child("Users").child(loginUser.getUserId()).child("interestedRestaurants").setValue(selectedRestaurants);
+        userref = FirebaseDatabase.getInstance().getReference();
+        List<String> restaurantNames = new ArrayList<String>();
+        for (YelpRestaurant restaurant : selectedRestaurants) {
+            restaurantNames.add(restaurant.getRestaurantName());
+        }
+        loginUser.setInterestedRestaurants(restaurantNames);
+        System.out.println(loginUser.getUserId());
+        userref.child("Users").child(loginUser.getUserId()).child("interestedRestaurants").setValue(restaurantNames);
     }
 }
