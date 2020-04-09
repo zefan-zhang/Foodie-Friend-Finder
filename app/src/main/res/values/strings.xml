@@ -1,33 +1,29 @@
 <resources>
     <string name="app_name">Foodie Friend Finder</string>
-    <string name="userid">UserId</string>
-    <string name="firstname">FirstName</string>
-    <string name="lastname">LastName</string>
-    <string name="phone">Phone</string>
-    <string name="cuisine">Cuisine</string>
-    <string name="dob">DOB</string>
-    <string name="languages">Languages</string>
-    <string name="button">Button</string>
-    <string name="register">Register</string>
-    <string name="sign_in_string">Sign In</string>
-    <string name="username_string">username</string>
-    <string name="login_string">Login</string>
-    <string name="create_user_string">Create User</string>
-    <string name="gender">Gender</string>
+    <string name="useridCreate">UserID</string>
+    <string name="firstnameCreate">FirstName</string>
+    <string name="lastnameCreate">LastName</string>
+    <string name="phoneCreate">Phone</string>
+    <string name="dobCreate">DOB</string>
+    <string name="languagesCreate">Languages</string>
+    <string name="registerButton">Register</string>
+    <string name="signinLogin">Sign In</string>
+    <string name="userIDLogin">userID</string>
+    <string name="loginUserMainActivity">Login</string>
+    <string name="createUserMainActivity">Create User</string>
+    <string name="genderCreate">Gender</string>
     <string name="mm_dd_yyyy">MM-DD-YYYY</string>
-    <string name="go_login">Go Login</string>
-    <string name="email">Email</string>
-    <string name="select_your_cuisine">select your cuisine</string>
+    <string name="alreadyLoginCreate">Already have an account? \n Login Here</string>
+    <string name="emailCreate">Email</string>
+    <string name="cuisineCreate">Familiar Cuisines</string>
     <string name="search_criteria">Search Criteria</string>
-    <string name="cusine">Cusine</string>
-    <string name="price">Price</string>
-    <string name="search_results">Search Results</string>
     <string name="search">Search</string>
-    <string name="distance">Distance</string>
-    <string name="cusine_">Cusine:</string>
-    <string name="distance_">Distance:</string>
-    <string name="languages_">Languages:</string>
-    <string name="price_">Price:</string>
+    <string name="distanceSearch">Distance</string>
+    <string name="cuisineSearch">Cuisine</string>
+    <string name="priceSearch">Price</string>
+    <string name="statusText">Status</string>
+    <string name="onlineToggleText">Offline/Online</string>
+    <string name="pictureforrestaurant">pictureforRestaurant</string>
 
     <string-array name="genderOptions">
         <item></item>
@@ -37,17 +33,34 @@
     </string-array>
 
     <string-array name="distanceOptions">
+        <item>Any distance</item>
+        <item>0.3 mi</item>
+        <item>1 mi</item>
         <item>5 mi</item>
-        <item>10 mi</item>
-        <item>25 mi</item>
-        <item>50 mi</item>
+        <item>20 mi</item>
     </string-array>
 
     <string-array name="priceOptions">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+        <item>Any Range</item>
+        <item>$</item>
+        <item>$$</item>
+        <item>$$$</item>
+        <item>$$$$</item>
+    </string-array>
+
+    <string-array name="cuisineInSearch">
+        <item></item>
+        <item>Chinese food</item>
+        <item>Indian cuisine</item>
+        <item>Japanese Cuisine</item>
+        <item>Italian food</item>
+        <item>Mexican food</item>
+        <item>Thai food</item>
+        <item>Greek food</item>
+        <item>American food</item>
+        <item>Spanish Cuisine</item>
+        <item>Vietnamese food</item>
+        <item>Korea Food</item>
     </string-array>
 
     <string-array name="cuisineOptions">
