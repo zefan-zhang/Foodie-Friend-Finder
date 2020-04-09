@@ -55,6 +55,95 @@ public class YelpRestaurant {
         return this.name;
     }
 
+    public double getRating() {
+        return rating;
+    }
 
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Boolean getClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(Boolean closed) {
+        isClosed = closed;
+    }
+
+    public List<YelpRestaurantCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<YelpRestaurantCategory> categories) {
+        this.categories = categories;
+    }
+
+    public Integer getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(Integer reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public void setRestaurantName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public YelpRestaurantCoor getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(YelpRestaurantCoor coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public YelpRestaurantLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(YelpRestaurantLocation location) {
+        this.location = location;
+    }
+
+    public Double getDistanceInMeters() {
+        return distanceInMeters;
+    }
+
+    public void setDistanceInMeters(Double distanceInMeters) {
+        this.distanceInMeters = distanceInMeters;
+    }
 }
