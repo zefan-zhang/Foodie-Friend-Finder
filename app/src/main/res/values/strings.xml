@@ -24,6 +24,7 @@
     <string name="statusText">Status</string>
     <string name="onlineToggleText">Offline/Online</string>
     <string name="pictureforrestaurant">pictureforRestaurant</string>
+    <string name="go_match">GO MATCH</string>
 
     <string-array name="genderOptions">
         <item></item>
