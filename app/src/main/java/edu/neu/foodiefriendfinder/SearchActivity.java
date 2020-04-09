@@ -111,16 +111,14 @@ public class SearchActivity extends AppCompatActivity {
                 ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
 
 
-
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
                 YelpService yelpService = retrofit.create(YelpService.class);
-                yelpService.searchRestaurants(API_KEY,cuisine, latitude,
+                yelpService.searchRestaurants(API_KEY, cuisine, latitude,
                         longitude, meter, priceRange).enqueue(new Callback<YelpDataClass>() {
-
 
 
                     @Override
@@ -160,20 +158,20 @@ public class SearchActivity extends AppCompatActivity {
             public void onItemClick(int position) {
 
                 YelpRestaurant selectedRes = adapter.getRestaurantList().get(position);
-                if (selectedRestaurants.size() < 3) {
-                    if (!selectedRestaurants.contains(selectedRes)) {
-                        selectedRestaurants.add(selectedRes);
-                    }
-                    else {
-                        selectedRestaurants.remove(selectedRes);
-                    }
+                if (!selectedRestaurants.contains(selectedRes)) {
+                    selectedRestaurants.add(selectedRes);
                 } else {
-                    // go to next activity
-                    Toast.makeText(SearchActivity.this, "Please select no more than restaurants", Toast.LENGTH_SHORT).show();
+                    selectedRestaurants.remove(selectedRes);
                 }
-
                 String string = "You picked " + selectedRestaurants.size() + " restaurants";
                 Toast.makeText(SearchActivity.this, string, Toast.LENGTH_SHORT).show();
+
+                if (selectedRestaurants.size() > 3) {
+                    // go to next activity
+                    Toast.makeText(SearchActivity.this, "Please select no more than 3 restaurants", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
     }
@@ -182,17 +180,13 @@ public class SearchActivity extends AppCompatActivity {
         String price = priceDropDown.getSelectedItem().toString();
         if (price.equals("Any Range")) {
             return "1, 2, 3, 4";
-        }
-        else if (price.equals("$")) {
+        } else if (price.equals("$")) {
             return "1";
-        }
-        else if (price.equals("$$")) {
+        } else if (price.equals("$$")) {
             return "2";
-        }
-        else if (price.equals("$$$")) {
+        } else if (price.equals("$$$")) {
             return "3";
-        }
-        else {
+        } else {
             return "4";
         }
     }
@@ -204,17 +198,13 @@ public class SearchActivity extends AppCompatActivity {
         String miles = distanceDropDown.getSelectedItem().toString();
         if (miles.equals("Any distance")) {
             return 40000;
-        }
-        else if (miles.equals("0.3 mi")) {
+        } else if (miles.equals("0.3 mi")) {
             mi = 0.3;
-        }
-        else if (miles.equals("1 mi")) {
+        } else if (miles.equals("1 mi")) {
             mi = 1;
-        }
-        else if (miles.equals("5 mi")) {
+        } else if (miles.equals("5 mi")) {
             mi = 5;
-        }
-        else if (miles.equals("20 mi")) {
+        } else if (miles.equals("20 mi")) {
             mi = 20;
         }
 
