@@ -2,6 +2,7 @@ package edu.neu.foodiefriendfinder;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -26,6 +27,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static edu.neu.foodiefriendfinder.LoginActivity.loginUser;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -60,6 +65,8 @@ public class SearchActivity extends AppCompatActivity {
     private double longitude;
 
     private ArrayList<YelpRestaurant> selectedRestaurants = new ArrayList<YelpRestaurant>();
+
+    private DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +150,21 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+
+        userRef = FirebaseDatabase.getInstance().getReference();
+
+        // go matched foodies activity
+        Button go_match = findViewById(R.id.match_foodie);
+        go_match.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isValidSelected()) {
+                    updateUserSelectedResr();
+                    Intent intent = new Intent(SearchActivity.this, FoodieResultActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void recyclerSetup() {
@@ -163,14 +185,9 @@ public class SearchActivity extends AppCompatActivity {
                 } else {
                     selectedRestaurants.remove(selectedRes);
                 }
-                String string = "You picked " + selectedRestaurants.size() + " restaurants";
-                Toast.makeText(SearchActivity.this, string, Toast.LENGTH_SHORT).show();
-
                 if (selectedRestaurants.size() > 3) {
-                    // go to next activity
                     Toast.makeText(SearchActivity.this, "Please select no more than 3 restaurants", Toast.LENGTH_SHORT).show();
                 }
-
 
             }
         });
@@ -323,5 +340,22 @@ public class SearchActivity extends AppCompatActivity {
             longitude = location.getLongitude();
 
         }
+    }
+
+    public boolean isValidSelected() {
+        if (selectedRestaurants.size() == 0) {
+            Toast.makeText(this, "Please selected at least 1 restaurant", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (selectedRestaurants.size() > 3) {
+            Toast.makeText(this, "Please selected no more than 3 restaurants", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void updateUserSelectedResr() {
+        loginUser.setInterestedRestaurants(selectedRestaurants);
+        userRef.child("Users").child(loginUser.getUserId()).child("interestedRestaurants").setValue(selectedRestaurants);
     }
 }

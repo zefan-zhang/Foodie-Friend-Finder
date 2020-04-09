@@ -65,9 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                                 userRef.child("Users").child(currentID).child("isOnline").setValue(true);
 
                                 Toast.makeText(LoginActivity.this, "Login", Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(LoginActivity.this, SearchActivity.class);
-                                LoginActivity.this.startActivity(intent);
                                 break;
                             }
                             count++;
@@ -75,7 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                         if (count == users.size()) {
                             Toast.makeText(LoginActivity.this, "incorrect username", Toast.LENGTH_SHORT).show();
                         } else {
-                            // go to another activity
+                            Intent intent = new Intent(LoginActivity.this, SearchActivity.class);
+                            startActivity(intent);
                         }
                     }
 

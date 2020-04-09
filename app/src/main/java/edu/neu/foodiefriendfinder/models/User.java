@@ -17,6 +17,7 @@ public class User {
     private String gender;
     private String email;
     private boolean isOnline;
+    private List<YelpRestaurant> interestedRestaurants;
 
     public User() {
     }
@@ -130,4 +131,18 @@ public class User {
     public void setEmaill(String email) {
         this.email = email;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<YelpRestaurant> getInterestedRestaurants() {
+        return interestedRestaurants;
+    }
+
+    public void setInterestedRestaurants(List<YelpRestaurant> interestedRestaurants) {
+        this.interestedRestaurants = interestedRestaurants;
+    }
+
+
 }
