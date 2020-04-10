@@ -60,7 +60,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<YelpRestaurant> selectedRestaurants = new ArrayList<YelpRestaurant>();
 
-    private DatabaseReference userref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -347,13 +346,13 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void updateUserSelectedResr() {
-        userref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
         List<String> restaurantNames = new ArrayList<String>();
         for (YelpRestaurant restaurant : selectedRestaurants) {
             restaurantNames.add(restaurant.getRestaurantName());
         }
         loginUser.setInterestedRestaurants(restaurantNames);
         System.out.println(loginUser.getUserId());
-        userref.child("Users").child(loginUser.getUserId()).child("interestedRestaurants").setValue(restaurantNames);
+        userRef.child("Users").child(loginUser.getUserId()).child("interestedRestaurants").setValue(restaurantNames);
     }
 }
