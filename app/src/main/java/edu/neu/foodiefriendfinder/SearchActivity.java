@@ -330,7 +330,6 @@ public class SearchActivity extends AppCompatActivity {
             latitude = location.getLatitude();
 
             longitude = location.getLongitude();
-
         }
     }
 
