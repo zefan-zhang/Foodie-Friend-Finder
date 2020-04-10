@@ -56,7 +56,8 @@ public class FoodieResultActivity extends AppCompatActivity {
                         }
                         for (User user : users) {
                             for (String restaurant : loginUser.getInterestedRestaurants()) {
-                                if (user.getInterestedRestaurants().contains(restaurant)) {
+                                if (user.getInterestedRestaurants().contains(restaurant) &&
+                                !user.getUserId().equals(loginUser.getUserId())) {
                                     if (!matchFoodies.contains(user)) {
                                         matchFoodies.add(user);
                                     }

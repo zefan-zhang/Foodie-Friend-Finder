@@ -104,8 +104,8 @@ public class SearchActivity extends AppCompatActivity {
                 int meter = getDistance();
                 String priceRange = getPriceRange();
                 // on each click, call the function to get the current latitude and longitude.
+                LatLon();
                 LatLonOld();
-
                 recyclerSetup();
 
                 ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
@@ -294,12 +294,6 @@ public class SearchActivity extends AppCompatActivity {
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    String coordinates = "Latitude: " + location.getLatitude() + "\n" +
-                            "Longitude: " + location.getLongitude();
-
-
-                    Toast.makeText(SearchActivity.this, coordinates, Toast.LENGTH_LONG).show();
-
                     locationManager.removeUpdates(locationListener);
                 }
 
