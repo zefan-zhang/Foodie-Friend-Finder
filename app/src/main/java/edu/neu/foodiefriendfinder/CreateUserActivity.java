@@ -20,7 +20,9 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.neu.foodiefriendfinder.models.User;
 
@@ -107,6 +109,8 @@ public class CreateUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createNewUser();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -170,6 +174,9 @@ public class CreateUserActivity extends AppCompatActivity {
                 !phone.equals("") && !dob.equals("") && !gender.equals("") && userCuisine.size() > 0
         && userLanguages.size() > 0) {
             User newUser = new User(id, firstName, lastName, email, phone, userCuisine, dob, userLanguages, gender);
+            List<String> emptyStringList = new ArrayList<String>();
+            emptyStringList.add("");
+            newUser.setInterestedRestaurants(emptyStringList);
             usersReference.child("Users").child(id).setValue(newUser);
             Toast.makeText(this, "Success!!!", Toast.LENGTH_SHORT).show();
         } else {

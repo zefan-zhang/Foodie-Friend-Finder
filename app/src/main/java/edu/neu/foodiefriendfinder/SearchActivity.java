@@ -104,7 +104,7 @@ public class SearchActivity extends AppCompatActivity {
                 int meter = getDistance();
                 String priceRange = getPriceRange();
                 // on each click, call the function to get the current latitude and longitude.
-                LatLon();
+//                LatLon();
                 LatLonOld();
                 recyclerSetup();
 

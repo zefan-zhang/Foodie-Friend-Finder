@@ -1,6 +1,5 @@
 package edu.neu.foodiefriendfinder;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import edu.neu.foodiefriendfinder.models.User;
 
 import static edu.neu.foodiefriendfinder.LoginActivity.loginUser;
@@ -31,7 +29,6 @@ public class FoodieResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodie_result);
-
 
         final List<User> users = new ArrayList<User>();
 
@@ -56,8 +53,8 @@ public class FoodieResultActivity extends AppCompatActivity {
                         }
                         for (User user : users) {
                             for (String restaurant : loginUser.getInterestedRestaurants()) {
-                                if (user.getInterestedRestaurants().contains(restaurant) &&
-                                !user.getUserId().equals(loginUser.getUserId())) {
+                                if (user.getInterestedRestaurants().contains(restaurant)
+                                && (!user.getUserId().equals(loginUser.getUserId()))) {
                                     if (!matchFoodies.contains(user)) {
                                         matchFoodies.add(user);
                                     }
