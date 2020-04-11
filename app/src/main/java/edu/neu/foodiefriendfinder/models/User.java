@@ -35,7 +35,6 @@ public class User {
         this.languages = languages;
         this.gender = gender;
         this.isOnline = false;
-        this.interestedRestaurants = new ArrayList<String>();
     }
 
     public String getUserId() {
