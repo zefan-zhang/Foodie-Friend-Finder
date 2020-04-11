@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.neu.foodiefriendfinder.models.User;
 
@@ -165,12 +166,17 @@ public class CreateUserActivity extends AppCompatActivity {
         String phone = userPhone.getText().toString();
         String dob = userDob.getText().toString();
         String gender = genderDropDown.getSelectedItem().toString();
+        List<String> interestedRestaurants = new ArrayList<String>();
+        interestedRestaurants.add("");
 
         if (!id.equals("") && !firstName.equals("") && !lastName.equals("") && !email.equals("") &&
                 !phone.equals("") && !dob.equals("") && !gender.equals("") && userCuisine.size() > 0
         && userLanguages.size() > 0) {
             User newUser = new User(id, firstName, lastName, email, phone, userCuisine, dob, userLanguages, gender);
+            newUser.setInterestedRestaurants(interestedRestaurants);
             usersReference.child("Users").child(id).setValue(newUser);
+
+
             Toast.makeText(this, "Success!!!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Something unfilled!!!", Toast.LENGTH_SHORT).show();
