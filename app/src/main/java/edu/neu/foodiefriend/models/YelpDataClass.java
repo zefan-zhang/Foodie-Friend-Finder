@@ -1,4 +1,4 @@
-package edu.neu.foodiefriendfinder.models;
+package edu.neu.foodiefriend.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

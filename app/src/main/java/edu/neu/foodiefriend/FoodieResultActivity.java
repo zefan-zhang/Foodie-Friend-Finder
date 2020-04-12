@@ -1,4 +1,4 @@
-package edu.neu.foodiefriendfinder;
+package edu.neu.foodiefriend;
 
 
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import edu.neu.foodiefriendfinder.models.User;
+import edu.neu.foodiefriend.models.User;
 
-import static edu.neu.foodiefriendfinder.LoginActivity.loginUser;
+import static edu.neu.foodiefriend.LoginActivity.loginUser;
 
 public class FoodieResultActivity extends AppCompatActivity {
 

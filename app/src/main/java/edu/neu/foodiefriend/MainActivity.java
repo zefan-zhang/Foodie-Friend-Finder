@@ -1,4 +1,4 @@
-package edu.neu.foodiefriendfinder;
+package edu.neu.foodiefriend;
 
 import androidx.appcompat.app.AppCompatActivity;
 

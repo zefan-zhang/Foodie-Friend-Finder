@@ -1,4 +1,4 @@
-package edu.neu.foodiefriendfinder;
+package edu.neu.foodiefriend;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,7 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import edu.neu.foodiefriendfinder.models.YelpRestaurant;
+import edu.neu.foodiefriend.models.YelpRestaurant;
 
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHolder> {

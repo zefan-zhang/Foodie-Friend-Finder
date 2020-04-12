@@ -1,8 +1,7 @@
-package edu.neu.foodiefriendfinder.models;
+package edu.neu.foodiefriend.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @IgnoreExtraProperties

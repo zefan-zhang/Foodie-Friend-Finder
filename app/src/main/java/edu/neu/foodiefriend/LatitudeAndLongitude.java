@@ -1,9 +1,7 @@
-package edu.neu.foodiefriendfinder;
+package edu.neu.foodiefriend;
 
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;

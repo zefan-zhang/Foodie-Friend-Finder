@@ -1,6 +1,6 @@
-package edu.neu.foodiefriendfinder.yelpData;
+package edu.neu.foodiefriend.yelpData;
 
-import edu.neu.foodiefriendfinder.models.YelpDataClass;
+import edu.neu.foodiefriend.models.YelpDataClass;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

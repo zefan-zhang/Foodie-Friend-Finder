@@ -1,4 +1,4 @@
-package edu.neu.foodiefriendfinder;
+package edu.neu.foodiefriend;
 
 
 import androidx.appcompat.app.AlertDialog;
@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.neu.foodiefriendfinder.models.User;
+import edu.neu.foodiefriend.models.User;
 
 public class CreateUserActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package edu.neu.foodiefriendfinder;
+package edu.neu.foodiefriend;
 
 import android.Manifest;
 import android.content.Context;
@@ -28,16 +28,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.neu.foodiefriendfinder.models.YelpDataClass;
-import edu.neu.foodiefriendfinder.models.YelpRestaurant;
-import edu.neu.foodiefriendfinder.yelpData.YelpService;
+import edu.neu.foodiefriend.models.YelpDataClass;
+import edu.neu.foodiefriend.models.YelpRestaurant;
+import edu.neu.foodiefriend.yelpData.YelpService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static edu.neu.foodiefriendfinder.LoginActivity.loginUser;
+import static edu.neu.foodiefriend.LoginActivity.loginUser;
 
 public class SearchActivity extends AppCompatActivity {
 
