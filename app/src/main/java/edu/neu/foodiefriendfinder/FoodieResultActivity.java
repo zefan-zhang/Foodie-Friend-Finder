@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import edu.neu.foodiefriendfinder.models.User;
@@ -26,15 +27,18 @@ import static edu.neu.foodiefriendfinder.LoginActivity.loginUser;
 public class FoodieResultActivity extends AppCompatActivity {
 
     private DatabaseReference reference;
+    private int searchButtonCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodie_result);
 
-        final List<User> users = new ArrayList<User>();
+        final List<User> users = new ArrayList<>();
 
-        final List<User> matchFoodies = new ArrayList<User>();
+        final List<User> matchFoodies = new ArrayList<>();
+
+        final HashSet<User> uniqueListOfFoodies = new HashSet<>();
 
         reference = FirebaseDatabase.getInstance().getReference();
 
@@ -58,19 +62,19 @@ public class FoodieResultActivity extends AppCompatActivity {
                                 if (user.getInterestedRestaurants().contains(restaurant)
                                 && (!user.getUserId().equals(loginUser.getUserId()))) {
                                     if (!matchFoodies.contains(user)) {
+                                        System.out.println("adding user" + user);
                                         matchFoodies.add(user);
                                     }
                                 }
                             }
                         }
-                        isNoMatches(matchFoodies);
-//                        String matchfoodiesName = "";
-//                        for (User user : matchFoodies) {
-//                            matchfoodiesName += "  " + user.getFirstName();
-//                        }
-                        isMatchExistsAlready(matchFoodies, textView);
-//                        textView.setText(matchfoodiesName);
-
+                        if (!isNoMatches(matchFoodies)) {
+                            StringBuilder foodieName = new StringBuilder();
+                            for (User foodie : matchFoodies) {
+                                foodieName.append("  ").append(foodie.getFirstName());
+                            }
+                            textView.setText(foodieName);
+                        }
                     }
 
                     @Override
@@ -82,26 +86,11 @@ public class FoodieResultActivity extends AppCompatActivity {
         });
     }
 
-    private void isNoMatches(List<User> foodieMatches) {
+    private boolean isNoMatches(List<User> foodieMatches) {
         if (foodieMatches.isEmpty()) {
             Toast.makeText(this, "Sorry no matches", Toast.LENGTH_SHORT).show();
+            return true;
         }
-    }
-
-    private void isMatchExistsAlready(List<User> foodieMatches, TextView textView) {
-        String matchfoodiesName = "";
-        int initialSize = foodieMatches.size();
-        System.out.println("Initial size: " + initialSize);
-        for (User match : foodieMatches) {
-//            if (foodieMatches.contains(match)) {
-            if (initialSize == foodieMatches.size()) {
-                matchfoodiesName += "  " + match.getFirstName();
-            }
-            else {
-                Toast.makeText(this, "This user: " + match.getFirstName() + " is already accounted for!",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-        textView.setText(matchfoodiesName);
+        return false;
     }
 }

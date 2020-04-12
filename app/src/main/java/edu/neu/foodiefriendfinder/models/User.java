@@ -1,5 +1,7 @@
 package edu.neu.foodiefriendfinder.models;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
@@ -36,6 +38,17 @@ public class User {
         this.gender = gender;
         this.isOnline = false;
         this.interestedRestaurants = new ArrayList<String>();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof User) {
+            User user = (User) obj;
+            if (user.userId.equals(this.userId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getUserId() {
