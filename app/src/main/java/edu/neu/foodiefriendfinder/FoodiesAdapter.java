@@ -103,7 +103,7 @@ public class FoodiesAdapter extends RecyclerView.Adapter<FoodiesAdapter.ViewHold
         }
 
         void bind(User foodie, Context context) {
-            StringBuilder fullName = new StringBuilder(foodie.getFirstName() + foodie.getLastName());
+            StringBuilder fullName = new StringBuilder(foodie.getFirstName() + " " + foodie.getLastName());
             fName.setText(fullName);
             fAge.setText(foodie.getAge());
 

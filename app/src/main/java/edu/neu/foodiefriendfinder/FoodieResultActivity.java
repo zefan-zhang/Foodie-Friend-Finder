@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -109,6 +110,7 @@ public class FoodieResultActivity extends AppCompatActivity {
                 if (!selectedFoodies.contains(selectedFoodie) && selectedFoodies.size() < 1) {
                     selectedFoodies.add(selectedFoodie);
                     System.out.println("selected foodie: " + selectedFoodies);
+                    confirmDineWithFoodie(selectedFoodie);
                 } else {
                     Toast.makeText(FoodieResultActivity.this, "Please select no more than 1 Foodie to dine with!", Toast.LENGTH_SHORT).show();
                 }
@@ -124,11 +126,12 @@ public class FoodieResultActivity extends AppCompatActivity {
         return false;
     }
 
-    private void confirmDineWithFoodie() {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+    private void confirmDineWithFoodie(User foodie) {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_DayNight_Dialog));
 
         alert.setTitle("Confirm Foodie");
-        alert.setMessage("Dine with NAME_HERE?");
+        StringBuilder fullName = new StringBuilder(foodie.getFirstName() + " " + foodie.getLastName());
+        alert.setMessage("Dine with " + fullName + "?");
         alert.setCancelable(true);
 
         String yesOption = "Yes";
@@ -143,6 +146,7 @@ public class FoodieResultActivity extends AppCompatActivity {
         alert.setNegativeButton(cancelOption, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                selectedFoodies.remove(foodie);
                 dialog.cancel();
             }
         });
