@@ -321,7 +321,6 @@ public class SearchActivity extends AppCompatActivity {
 
         if (location != null) {
             latitude = location.getLatitude();
-
             longitude = location.getLongitude();
         }
     }
@@ -345,7 +344,6 @@ public class SearchActivity extends AppCompatActivity {
             restaurantNames.add(restaurant.getRestaurantName());
         }
         loginUser.setInterestedRestaurants(restaurantNames);
-        System.out.println(loginUser.getUserId());
         userRef.child("Users").child(loginUser.getUserId()).child("interestedRestaurants").setValue(restaurantNames);
     }
 }

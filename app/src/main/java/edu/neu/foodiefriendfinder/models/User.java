@@ -1,11 +1,22 @@
 package edu.neu.foodiefriendfinder.models;
 
+import android.os.Build;
+
 import androidx.annotation.Nullable;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @IgnoreExtraProperties
 public class User {
@@ -159,5 +170,34 @@ public class User {
         this.interestedRestaurants = interestedRestaurants;
     }
 
+    public String getAge() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy", Locale.US);
+            LocalDate parsedBirthday = LocalDate.parse(getDob(), formatter);
+            LocalDate currentDate = LocalDate.now();
+            int ageInt = Period.between(parsedBirthday, currentDate).getYears();
+            return Integer.toString(ageInt);
+        } else {
+            SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+            int age = 0;
+            try {
+                Date parsedDob = format.parse(getDob());
+                // https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate/27378709#27378709
 
+                // https://stackoverflow.com/questions/31482267/get-age-of-person-with-java-threeten-bp
+                Date currentDate = new Date();
+                org.threeten.bp.LocalDate dateThreeTenFormat = Instant.ofEpochMilli(currentDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                org.threeten.bp.LocalDate convertedDob = Instant.ofEpochMilli(parsedDob.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                age = dateThreeTenFormat.getYear() - convertedDob.getYear();
+
+                if (convertedDob.plusYears(age).isAfter(dateThreeTenFormat)) {
+                    age--;
+                }
+
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+            return Integer.toString(age);
+        }
+    }
 }

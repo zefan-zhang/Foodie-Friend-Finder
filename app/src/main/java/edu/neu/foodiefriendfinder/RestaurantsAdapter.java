@@ -36,7 +36,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         mListener = listener;
     }
 
-    public RestaurantsAdapter(int layoutId, Context context) {
+    RestaurantsAdapter(int layoutId, Context context) {
         this.restaurantLayout = layoutId;
         this.context = context;
 
@@ -73,7 +73,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         ImageView imageView;
         CheckedTextView checkedTextView;
 
-        public ViewHolder(View itemView, final OnItemClickListener listener) {
+        ViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             rName = itemView.findViewById(R.id.tvName);
             rating = itemView.findViewById(R.id.ratingBar);
@@ -84,8 +84,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
             price = itemView.findViewById(R.id.priceRange);
             imageView = itemView.findViewById(R.id.imageView);
             checkedTextView = itemView.findViewById(R.id.checkedTextView);
-
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,7 +103,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
             });
         }
 
-        public void bind(YelpRestaurant restaurant, Context context) {
+        void bind(YelpRestaurant restaurant, Context context) {
             rName.setText(restaurant.name);
             rating.setRating((float) restaurant.rating);
             reviews.setText(restaurant.reviewCount + " Reviews");
@@ -124,7 +122,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         return restaurantList == null ? 0 : restaurantList.size();
     }
 
-    public List<YelpRestaurant> getRestaurantList() {
+    List<YelpRestaurant> getRestaurantList() {
         return this.restaurantList;
     }
 }
