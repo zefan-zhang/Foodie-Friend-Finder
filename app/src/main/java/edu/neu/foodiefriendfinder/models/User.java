@@ -32,6 +32,7 @@ public class User {
     private String email;
     private boolean isOnline;
     private List<String> interestedRestaurants;
+    private String interestedFoodie;
 
     public User() {
     }
@@ -49,15 +50,14 @@ public class User {
         this.gender = gender;
         this.isOnline = false;
         this.interestedRestaurants = new ArrayList<String>();
+        this.interestedFoodie = "";
     }
 
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj instanceof User) {
             User user = (User) obj;
-            if (user.userId.equals(this.userId)) {
-                return true;
-            }
+            return user.userId.equals(this.userId);
         }
         return false;
     }
@@ -170,7 +170,9 @@ public class User {
         this.interestedRestaurants = interestedRestaurants;
     }
 
-    public void setInterestedFoodie(String userId) { this.userId = userId; }
+    public void setInterestedFoodie(String interestedFoodie) {
+        this.interestedFoodie = interestedFoodie;
+    }
 
     public String getAge() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

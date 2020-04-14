@@ -68,6 +68,7 @@ public class FoodieResultActivity extends AppCompatActivity {
                                 if (user.getInterestedRestaurants().contains(restaurant)
                                 && (!user.getUserId().equals(loginUser.getUserId()))) {
                                     if (!matchFoodies.contains(user)) {
+                                        System.out.println("From inside loop, loginUser: " + loginUser.getUserId());
                                         matchFoodies.add(user);
                                     }
                                 }
@@ -147,6 +148,8 @@ public class FoodieResultActivity extends AppCompatActivity {
     public void setSelectedFoodie(String userId) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         loginUser.setInterestedFoodie(userId);
+        System.out.println(loginUser.getUserId());
+        System.out.println(userId);
         dbRef.child("Users").child(loginUser.getUserId()).child("interestedFoodie").setValue(userId);
         Toast.makeText(this, "Foodie match sent!", Toast.LENGTH_SHORT).show();
     }
