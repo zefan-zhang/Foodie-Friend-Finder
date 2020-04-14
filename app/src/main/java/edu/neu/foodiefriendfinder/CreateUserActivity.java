@@ -177,6 +177,7 @@ public class CreateUserActivity extends AppCompatActivity {
             List<String> emptyStringList = new ArrayList<String>();
             emptyStringList.add("");
             newUser.setInterestedRestaurants(emptyStringList);
+            newUser.setInterestedFoodie("");
             usersReference.child("Users").child(id).setValue(newUser);
             Toast.makeText(this, "Success!!!", Toast.LENGTH_SHORT).show();
         } else {

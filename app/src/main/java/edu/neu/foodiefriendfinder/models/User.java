@@ -170,6 +170,8 @@ public class User {
         this.interestedRestaurants = interestedRestaurants;
     }
 
+    public void setInterestedFoodie(String userId) { this.userId = userId; }
+
     public String getAge() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy", Locale.US);

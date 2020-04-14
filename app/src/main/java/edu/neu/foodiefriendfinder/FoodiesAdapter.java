@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.foodiefriendfinder.models.User;
 
@@ -25,14 +25,27 @@ public class FoodiesAdapter extends RecyclerView.Adapter<FoodiesAdapter.ViewHold
     private int foodieLayout;
     private Context context;
     private List<User> foodieList;
+
     private OnItemClickListener mListener;
-    
+    private OnDineWithButtonItemClickListener dineWithButtonItemClickListener;
+
+    /**
+     * This interface can be used to implement a generic listener for the row of the recycler view.
+     */
     public interface OnItemClickListener {
         void onItemClick(int position);
+    }
+
+    public interface OnDineWithButtonItemClickListener {
+        void onDineWithIsClick(View button, int position);
     }
     
     void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
+    }
+
+    void setDineWithButtonListener(OnDineWithButtonItemClickListener dineWithButtonListener) {
+        this.dineWithButtonItemClickListener = dineWithButtonListener;
     }
 
     FoodiesAdapter(int foodieLayout, Context context) {
@@ -50,14 +63,22 @@ public class FoodiesAdapter extends RecyclerView.Adapter<FoodiesAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(foodieLayout, parent, false);
-        ViewHolder myViewHolder = new ViewHolder(view, mListener);
-        return myViewHolder;
+        return new ViewHolder(view, mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User foodie = foodieList.get(position);
         holder.bind(foodie, this.context);
+
+        if (dineWithButtonItemClickListener != null) {
+            Objects.requireNonNull(holder).getDineWithButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dineWithButtonItemClickListener.onDineWithIsClick(v, position);
+                }
+            });
+        }
     }
 
     @Override
@@ -77,7 +98,6 @@ public class FoodiesAdapter extends RecyclerView.Adapter<FoodiesAdapter.ViewHold
         TextView fRestaurantsPicked;
         ImageView userAvatar;
         Button dineWithButton;
-
 
         ViewHolder(View view, final OnItemClickListener listener) {
             super(view);
@@ -100,6 +120,10 @@ public class FoodiesAdapter extends RecyclerView.Adapter<FoodiesAdapter.ViewHold
                     }
                 }
             });
+        }
+
+        Button getDineWithButton() {
+            return dineWithButton;
         }
 
         void bind(User foodie, Context context) {

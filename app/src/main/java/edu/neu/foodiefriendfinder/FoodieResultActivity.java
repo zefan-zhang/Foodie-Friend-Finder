@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,7 +57,7 @@ public class FoodieResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                recyclerSetup();
+                recyclerSetup(v);
 
                 reference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -95,27 +97,29 @@ public class FoodieResultActivity extends AppCompatActivity {
         });
     }
 
-    private void recyclerSetup() {
+    private void recyclerSetup(View v) {
         RecyclerView recyclerView;
 
         adapter = new FoodiesAdapter(R.layout.item_foodie, FoodieResultActivity.this);
         recyclerView = findViewById(R.id.rvFoodie);
         recyclerView.setLayoutManager(new LinearLayoutManager(FoodieResultActivity.this));
-        recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new FoodiesAdapter.OnItemClickListener() {
+        adapter.setDineWithButtonListener(new FoodiesAdapter.OnDineWithButtonItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onDineWithIsClick(View button, int position) {
                 User selectedFoodie = adapter.getFoodieList().get(position);
+//                int childAdapterPosition = recyclerView.getChildAdapterPosition(v);
+//                Log.v("CLICKED", "clicking on item: childAdapterPos(" + childAdapterPosition + ", position: "
+//                        + position + ", " + selectedFoodie + ")");
+
                 if (!selectedFoodies.contains(selectedFoodie) && selectedFoodies.size() < 1) {
                     selectedFoodies.add(selectedFoodie);
                     System.out.println("selected foodie: " + selectedFoodies);
                     confirmDineWithFoodie(selectedFoodie);
-                } else {
-                    Toast.makeText(FoodieResultActivity.this, "Please select no more than 1 Foodie to dine with!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        recyclerView.setAdapter(adapter);
     }
 
     private boolean isNoMatches(List<User> foodieMatches) {
@@ -130,15 +134,15 @@ public class FoodieResultActivity extends AppCompatActivity {
         final AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_DayNight_Dialog));
 
         alert.setTitle("Confirm Foodie");
-        StringBuilder fullName = new StringBuilder(foodie.getFirstName() + " " + foodie.getLastName());
-        alert.setMessage("Dine with " + fullName + "?");
+        String userId = foodie.getUserId();
+        alert.setMessage("Dine with " + foodie.getFirstName() + " " + foodie.getLastName() + "?");
         alert.setCancelable(true);
 
         String yesOption = "Yes";
         alert.setPositiveButton(yesOption, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO -- Send selected foodie to firebase
+                setSelectedFoodie(userId);
             }
         });
 
@@ -152,5 +156,12 @@ public class FoodieResultActivity extends AppCompatActivity {
         });
         AlertDialog alert1 = alert.create();
         alert1.show();
+    }
+
+    public void setSelectedFoodie(String userId) {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        loginUser.setInterestedFoodie(userId);
+        dbRef.child("Users").child(loginUser.getUserId()).child("interestedFoodie").setValue(userId);
+        Toast.makeText(this, "Foodie match sent!", Toast.LENGTH_SHORT).show();
     }
 }
