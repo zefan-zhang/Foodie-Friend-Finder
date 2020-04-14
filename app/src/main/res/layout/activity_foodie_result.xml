@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".FoodieResultActivity">
 
-    <TextView
-        android:id="@+id/testShow"
+    <Button
+        android:id="@+id/searchFoodie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="207dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginBottom="45dp"
+        android:text="@string/search"
         app:layout_constraintBottom_toTopOf="@+id/rvFoodie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,17 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testShow" />
-
-    <Button
-        android:id="@+id/searchFoodie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search"
-        app:layout_constraintBottom_toTopOf="@+id/rvFoodie"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testShow" />
+        app:layout_constraintTop_toBottomOf="@+id/searchFoodie" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

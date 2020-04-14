@@ -50,7 +50,7 @@ public class SearchActivity extends AppCompatActivity {
     private static final String API_KEY = BuildConfig.API_KEY;
 
     private static final String TAG = "searchActivity";
-
+    private static final int LOCATION_REQUEST_CODE = 101;
 
     private LocationListener locationListener;
     private LocationManager locationManager;
@@ -221,7 +221,6 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void LatLon() {
-
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(SearchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -242,7 +241,6 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void getCurrentLocation() {
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean isGPSOn = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -253,32 +251,24 @@ public class SearchActivity extends AppCompatActivity {
                     String coordinates = "Latitude: " + location.getLatitude() + "\n" +
                             "Longitude: " + location.getLongitude();
 
-
                     Toast.makeText(SearchActivity.this, coordinates, Toast.LENGTH_LONG).show();
 
                     locationManager.removeUpdates(locationListener);
-
-
                     latitude = location.getLatitude();
-
                     longitude = location.getLongitude();
-
 
                 }
 
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
-
                 }
 
                 @Override
                 public void onProviderEnabled(String provider) {
-
                 }
 
                 @Override
                 public void onProviderDisabled(String provider) {
-
                 }
             };
         }
@@ -299,30 +289,46 @@ public class SearchActivity extends AppCompatActivity {
 
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
-
                 }
 
                 @Override
                 public void onProviderEnabled(String provider) {
-
                 }
 
                 @Override
                 public void onProviderDisabled(String provider) {
-
                 }
             });
         }
     }
 
     private void LatLonOld() {
-        LatitudeAndLongitude latitudeAndLongitude = new LatitudeAndLongitude(getApplicationContext());
-        Location location = latitudeAndLongitude.getLocation();
+        if (checkPermissions()) {
+            LatitudeAndLongitude latitudeAndLongitude = new LatitudeAndLongitude(getApplicationContext());
+            Location location = latitudeAndLongitude.getLocation();
 
-        if (location != null) {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            if (location != null) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
         }
+    }
+
+    private boolean checkPermissions() {
+        int permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        else {
+            requestPermissions(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE);
+            return false;
+        }
+    }
+
+    protected void requestPermissions(String permissionType, int requestCode) {
+        ActivityCompat.requestPermissions(this, new String[]{permissionType}, requestCode);
     }
 
     public boolean isValidSelected() {

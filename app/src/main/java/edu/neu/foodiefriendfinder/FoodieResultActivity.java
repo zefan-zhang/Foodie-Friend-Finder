@@ -12,10 +12,8 @@ import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,12 +43,9 @@ public class FoodieResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_foodie_result);
 
         final List<User> users = new ArrayList<>();
-
         final List<User> matchFoodies = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference();
-
-        TextView textView = findViewById(R.id.testShow);
 
         Button searchButton = findViewById(R.id.searchFoodie);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -79,12 +74,7 @@ public class FoodieResultActivity extends AppCompatActivity {
                             }
                         }
                         if (!isNoMatches(matchFoodies)) {
-                            StringBuilder foodieName = new StringBuilder();
-                            for (User foodie : matchFoodies) {
-                                foodieName.append("  ").append(foodie.getFirstName());
-                            }
                             adapter.setFoodies(matchFoodies);
-                            textView.setText(foodieName);
                         }
                     }
 
@@ -108,10 +98,6 @@ public class FoodieResultActivity extends AppCompatActivity {
             @Override
             public void onDineWithIsClick(View button, int position) {
                 User selectedFoodie = adapter.getFoodieList().get(position);
-//                int childAdapterPosition = recyclerView.getChildAdapterPosition(v);
-//                Log.v("CLICKED", "clicking on item: childAdapterPos(" + childAdapterPosition + ", position: "
-//                        + position + ", " + selectedFoodie + ")");
-
                 if (!selectedFoodies.contains(selectedFoodie) && selectedFoodies.size() < 1) {
                     selectedFoodies.add(selectedFoodie);
                     System.out.println("selected foodie: " + selectedFoodies);
