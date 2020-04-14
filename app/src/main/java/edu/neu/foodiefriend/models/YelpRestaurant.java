@@ -46,7 +46,7 @@ public class YelpRestaurant {
     public YelpRestaurant() {
     }
 
-    public String meterToMile(){
+    public String meterToMile() {
         double mi = distanceInMeters * 0.00062137;
         return String.format("%.1f", mi) + " Mi";
     }

@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                        for (DataSnapshot child: children) {
+                        for (DataSnapshot child : children) {
                             User user = child.getValue(User.class);
                             users.add(user);
                         }

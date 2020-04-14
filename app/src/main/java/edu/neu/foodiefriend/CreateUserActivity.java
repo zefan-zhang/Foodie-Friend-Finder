@@ -1,9 +1,6 @@
 package edu.neu.foodiefriend;
 
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,8 +14,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class CreateUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidThreeTen.init(this);
         setContentView(R.layout.activity_create_user);
 
         usersReference = FirebaseDatabase.getInstance().getReference();
@@ -124,9 +126,9 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     private Dialog makeSelectDialog(final String[] itemBank, boolean[] checkedItems,
-                                        final ArrayList<Integer> itemIndex,
-                                        final ArrayList<String> userItems,
-                                        final TextView itemSelected) {
+                                    final ArrayList<Integer> itemIndex,
+                                    final ArrayList<String> userItems,
+                                    final TextView itemSelected) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CreateUserActivity.this);
         dialogBuilder.setMultiChoiceItems(itemBank, checkedItems,
                 new DialogInterface.OnMultiChoiceClickListener() {
@@ -173,7 +175,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
         if (!id.equals("") && !firstName.equals("") && !lastName.equals("") && !email.equals("") &&
                 !phone.equals("") && !dob.equals("") && !gender.equals("") && userCuisine.size() > 0
-        && userLanguages.size() > 0) {
+                && userLanguages.size() > 0) {
             User newUser = new User(id, firstName, lastName, email, phone, userCuisine, dob, userLanguages, gender);
             List<String> emptyStringList = new ArrayList<String>();
             emptyStringList.add("");

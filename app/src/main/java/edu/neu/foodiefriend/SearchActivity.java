@@ -320,8 +320,7 @@ public class SearchActivity extends AppCompatActivity {
 
         if (permission == PackageManager.PERMISSION_GRANTED) {
             return true;
-        }
-        else {
+        } else {
             requestPermissions(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE);
             return false;
         }

@@ -1,18 +1,17 @@
 package edu.neu.foodiefriend;
 
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.ContextThemeWrapper;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.DialogInterface;
-import android.os.Bundle;
-
-import android.view.ContextThemeWrapper;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +22,6 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 import edu.neu.foodiefriend.models.User;
 
@@ -67,7 +65,7 @@ public class FoodieResultActivity extends AppCompatActivity {
                         for (User user : users) {
                             for (String restaurant : loginUser.getInterestedRestaurants()) {
                                 if (user.getInterestedRestaurants().contains(restaurant)
-                                && (!user.getUserId().equals(loginUser.getUserId()))) {
+                                        && (!user.getUserId().equals(loginUser.getUserId()))) {
                                     if (!matchFoodies.contains(user)) {
                                         System.out.println("From inside loop, loginUser: " + loginUser.getUserId());
                                         matchFoodies.add(user);

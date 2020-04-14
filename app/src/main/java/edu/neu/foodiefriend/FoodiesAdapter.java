@@ -39,7 +39,7 @@ public class FoodiesAdapter extends RecyclerView.Adapter<FoodiesAdapter.ViewHold
     public interface OnDineWithButtonItemClickListener {
         void onDineWithIsClick(View button, int position);
     }
-    
+
     void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
