@@ -89,30 +89,6 @@
                 android:layout_height="wrap_content" />
 
         </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="18dp"
-            tools:layout_editor_absoluteY="82dp">
-
-            <TextView
-                android:id="@+id/statusSearch"
-                android:layout_width="122dp"
-                android:layout_height="match_parent"
-                android:text="@string/statusText"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-            <Switch
-                android:id="@+id/statusToggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/onlineToggleText" />
-
-        </TableRow>
-
     </TableLayout>
 
 

@@ -1,10 +1,14 @@
 package edu.neu.foodiefriend;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import edu.neu.foodiefriend.models.User;
 
@@ -30,10 +36,15 @@ import static edu.neu.foodiefriend.LoginActivity.loginUser;
 public class FoodieResultActivity extends AppCompatActivity {
 
     private DatabaseReference reference;
-
     private FoodiesAdapter adapter;
-
     private ArrayList<User> selectedFoodies = new ArrayList<>();
+    private List<String> allLanguages = new ArrayList<>();
+
+    private String[] languagesBank;
+    private boolean[] checkedLanguages;
+    private ArrayList<Integer> languagesIndex = new ArrayList<>();
+    private ArrayList<String> userLanguages = new ArrayList<>();
+    private TextView languagesSelectedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +53,49 @@ public class FoodieResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_foodie_result);
 
         final List<User> users = new ArrayList<>();
+        final List<User> testUsers = new ArrayList<>();
         final List<User> matchFoodies = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference();
+
+        Switch statusToggle = findViewById(R.id.statusToggle);
+
+        /*
+        Get the data from fire base first, then process it for all languages.
+         */
+        reference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for (DataSnapshot child : children) {
+                    User user = child.getValue(User.class);
+                    testUsers.add(user);
+                }
+                languagesBank = getAllFoodieLanguages(testUsers);
+                checkedLanguages = new boolean[languagesBank.length];
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        ImageButton languageSelectButton = findViewById(R.id.languageFoodieSelectButton);
+        languagesSelectedText = findViewById(R.id.languagesFoodieSelected);
+        languageSelectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeSelectDialog(languagesBank, checkedLanguages, languagesIndex, userLanguages, languagesSelectedText).show();
+            }
+        });
+
+        // TODO -- Update recyclerview to display foodies based on userItems (aka selected Languages)
 
         Button searchButton = findViewById(R.id.searchFoodie);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 recyclerSetup(v);
 
                 reference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -59,6 +104,7 @@ public class FoodieResultActivity extends AppCompatActivity {
                         Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
                         for (DataSnapshot child : children) {
+                            System.out.println("test");
                             User user = child.getValue(User.class);
                             users.add(user);
                         }
@@ -67,7 +113,6 @@ public class FoodieResultActivity extends AppCompatActivity {
                                 if (user.getInterestedRestaurants().contains(restaurant)
                                         && (!user.getUserId().equals(loginUser.getUserId()))) {
                                     if (!matchFoodies.contains(user)) {
-                                        System.out.println("From inside loop, loginUser: " + loginUser.getUserId());
                                         matchFoodies.add(user);
                                     }
                                 }
@@ -100,7 +145,6 @@ public class FoodieResultActivity extends AppCompatActivity {
                 User selectedFoodie = adapter.getFoodieList().get(position);
                 if (!selectedFoodies.contains(selectedFoodie) && selectedFoodies.size() < 1) {
                     selectedFoodies.add(selectedFoodie);
-                    System.out.println("selected foodie: " + selectedFoodies);
                     confirmDineWithFoodie(selectedFoodie);
                 }
             }
@@ -151,5 +195,55 @@ public class FoodieResultActivity extends AppCompatActivity {
         System.out.println(userId);
         dbRef.child("Users").child(loginUser.getUserId()).child("interestedFoodie").setValue(userId);
         Toast.makeText(this, "Foodie match sent!", Toast.LENGTH_SHORT).show();
+    }
+
+    private String[] getAllFoodieLanguages(List<User> matchedFoodies) {
+        List<String> newList = new ArrayList<>();
+
+        for (User foodie : matchedFoodies) {
+            if (!allLanguages.contains(foodie.getLanguages())) {
+                newList.addAll(foodie.getLanguages());
+            }
+        }
+        Set<String> set = new HashSet<>(newList);
+        allLanguages.addAll(set);
+
+        return allLanguages.toArray(new String[0]);
+    }
+
+    private Dialog makeSelectDialog(final String[] itemBank, boolean[] checkedItems,
+                                    final ArrayList<Integer> itemIndex,
+                                    final ArrayList<String> userItems,
+                                    final TextView itemSelected) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(FoodieResultActivity.this);
+        dialogBuilder.setMultiChoiceItems(itemBank, checkedItems,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            itemIndex.add(which);
+                        } else {
+                            itemIndex.remove(Integer.valueOf(which));
+                        }
+
+                    }
+                });
+
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                StringBuilder language = new StringBuilder("");
+                for (int i = 0; i < itemIndex.size(); i++) {
+                    language.append(itemBank[itemIndex.get(i)]);
+                    userItems.add(itemBank[itemIndex.get(i)]);
+                    if (i != itemIndex.size() - 1) {
+                        language.append(", ");
+                    }
+                }
+                itemSelected.setText(language);
+            }
+        });
+        return dialogBuilder.create();
     }
 }

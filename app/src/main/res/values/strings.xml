@@ -27,6 +27,7 @@
     <string name="go_match">GO MATCH</string>
     <string name="useravatar">userAvatar</string>
     <string name="letsDineWithButton">Let\'s Dine!</string>
+    <string name="imageButtonLanguageText">Used to display dialog</string>
 
     <string-array name="genderOptions">
         <item></item>
