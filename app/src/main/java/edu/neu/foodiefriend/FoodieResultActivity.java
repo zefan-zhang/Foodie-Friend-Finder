@@ -39,6 +39,7 @@ public class FoodieResultActivity extends AppCompatActivity {
     private FoodiesAdapter adapter;
     private ArrayList<User> selectedFoodies = new ArrayList<>();
     private List<String> allLanguages = new ArrayList<>();
+    private List<String> selectedFoodieLanguages = new ArrayList<>();
 
     private String[] languagesBank;
     private boolean[] checkedLanguages;
@@ -89,14 +90,12 @@ public class FoodieResultActivity extends AppCompatActivity {
                 makeSelectDialog(languagesBank, checkedLanguages, languagesIndex, userLanguages, languagesSelectedText).show();
             }
         });
-
-        // TODO -- Update recyclerview to display foodies based on userItems (aka selected Languages)
-
+        
         Button searchButton = findViewById(R.id.searchFoodie);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerSetup(v);
+                recyclerSetup();
 
                 reference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -104,7 +103,6 @@ public class FoodieResultActivity extends AppCompatActivity {
                         Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
                         for (DataSnapshot child : children) {
-                            System.out.println("test");
                             User user = child.getValue(User.class);
                             users.add(user);
                         }
@@ -119,7 +117,30 @@ public class FoodieResultActivity extends AppCompatActivity {
                             }
                         }
                         if (!isNoMatches(matchFoodies)) {
-                            adapter.setFoodies(matchFoodies);
+                            List<User> filteredFoodies = new ArrayList<>();
+
+//                            if (filteredFoodies.isEmpty()) {
+//                                // Display the total. This is the default action.
+//                                adapter.setFoodies(matchFoodies);
+//                            }
+
+                            for (User foodie : matchFoodies) {
+                                for (String language : selectedFoodieLanguages) {
+                                    if (foodie.getLanguages().contains(language)) {
+                                        filteredFoodies.add(foodie);
+                                    }
+                                    else if (!foodie.getLanguages().contains(language)) {
+                                        filteredFoodies.remove(foodie);
+                                    }
+                                }
+                            }
+
+//                            if (!filteredFoodies.isEmpty()) {
+//                                // Display foodies based on filters. Non default action.
+//                                matchFoodies.clear();
+//                                adapter.setFoodies(filteredFoodies);
+//                            }
+                            adapter.setFoodies(filteredFoodies);
                         }
                     }
 
@@ -132,7 +153,7 @@ public class FoodieResultActivity extends AppCompatActivity {
         });
     }
 
-    private void recyclerSetup(View v) {
+    private void recyclerSetup() {
         RecyclerView recyclerView;
 
         adapter = new FoodiesAdapter(R.layout.item_foodie, FoodieResultActivity.this);
@@ -211,6 +232,8 @@ public class FoodieResultActivity extends AppCompatActivity {
         return allLanguages.toArray(new String[0]);
     }
 
+
+
     private Dialog makeSelectDialog(final String[] itemBank, boolean[] checkedItems,
                                     final ArrayList<Integer> itemIndex,
                                     final ArrayList<String> userItems,
@@ -233,10 +256,12 @@ public class FoodieResultActivity extends AppCompatActivity {
         dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                StringBuilder language = new StringBuilder("");
+                StringBuilder language = new StringBuilder();
+
                 for (int i = 0; i < itemIndex.size(); i++) {
                     language.append(itemBank[itemIndex.get(i)]);
                     userItems.add(itemBank[itemIndex.get(i)]);
+                    selectedFoodieLanguages.add(itemBank[itemIndex.get(i)]);
                     if (i != itemIndex.size() - 1) {
                         language.append(", ");
                     }
