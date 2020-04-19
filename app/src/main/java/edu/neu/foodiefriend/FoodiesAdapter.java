@@ -146,30 +146,39 @@ public class FoodiesAdapter extends RecyclerView.Adapter<FoodiesAdapter.ViewHold
 
         // https://stackoverflow.com/questions/599161/best-way-to-convert-an-arraylist-to-a-string
         StringBuilder languagesStringPrep(User foodie) {
-            StringBuilder languages = new StringBuilder();
-            for (String language : foodie.getLanguages()) {
-                languages.append(language);
-                languages.append(", ");
+            StringBuilder languagesBuilder = new StringBuilder();
+            for (int i = 0; i < foodie.getLanguages().size(); i++) {
+                if (i != foodie.getLanguages().size() - 1) {
+                    languagesBuilder.append(foodie.getLanguages().get(i)).append(", ");
+                } else {
+                    languagesBuilder.append(foodie.getLanguages().get(i));
+                }
             }
-            return languages;
+            return languagesBuilder;
         }
 
         StringBuilder cuisinesStringPrep(User foodie) {
-            StringBuilder cuisines = new StringBuilder();
-            for (String cuisine : foodie.getCuisine()) {
-                cuisines.append(cuisine);
-                cuisines.append(", ");
+            StringBuilder cuisinesBuilder = new StringBuilder();
+            for (int i = 0; i < foodie.getCuisine().size(); i++) {
+                if (i != foodie.getCuisine().size() - 1) {
+                    cuisinesBuilder.append(foodie.getCuisine().get(i)).append(", ");
+                } else {
+                    cuisinesBuilder.append(foodie.getCuisine().get(i));
+                }
             }
-            return cuisines;
+            return cuisinesBuilder;
         }
 
         StringBuilder restaurantsStringPrep(User foodie) {
-            StringBuilder restaurants = new StringBuilder();
-            for (String restaurant : foodie.getInterestedRestaurants()) {
-                restaurants.append(restaurant);
-                restaurants.append(", ");
+            StringBuilder restaurantsBuilder = new StringBuilder();
+            for (int i = 0; i < foodie.getInterestedRestaurants().size(); i++) {
+                if (i != foodie.getInterestedRestaurants().size() - 1) {
+                    restaurantsBuilder.append(foodie.getInterestedRestaurants().get(i)).append(", ");
+                } else {
+                    restaurantsBuilder.append(foodie.getInterestedRestaurants().get(i));
+                }
             }
-            return restaurants;
+            return restaurantsBuilder;
         }
     }
 }

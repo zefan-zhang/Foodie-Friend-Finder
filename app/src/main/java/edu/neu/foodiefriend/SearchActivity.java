@@ -58,6 +58,8 @@ public class SearchActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
 
+    private DatabaseReference userRef;
+
     private ArrayList<YelpRestaurant> selectedRestaurants = new ArrayList<YelpRestaurant>();
 
 
@@ -186,16 +188,17 @@ public class SearchActivity extends AppCompatActivity {
 
     public String getPriceRange() {
         String price = priceDropDown.getSelectedItem().toString();
-        if (price.equals("Any Range")) {
-            return "1, 2, 3, 4";
-        } else if (price.equals("$")) {
-            return "1";
-        } else if (price.equals("$$")) {
-            return "2";
-        } else if (price.equals("$$$")) {
-            return "3";
-        } else {
-            return "4";
+        switch (price) {
+            case "Any Range":
+                return "1, 2, 3, 4";
+            case "$":
+                return "1";
+            case "$$":
+                return "2";
+            case "$$$":
+                return "3";
+            default:
+                return "4";
         }
     }
 
@@ -343,12 +346,24 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void updateUserSelectedResr() {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
+        userRef = FirebaseDatabase.getInstance().getReference();
         List<String> restaurantNames = new ArrayList<String>();
         for (YelpRestaurant restaurant : selectedRestaurants) {
             restaurantNames.add(restaurant.getRestaurantName());
         }
         loginUser.setInterestedRestaurants(restaurantNames);
         userRef.child("Users").child(loginUser.getUserId()).child("interestedRestaurants").setValue(restaurantNames);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        loginUser.setOnline(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginUser.setOnline(true);
     }
 }

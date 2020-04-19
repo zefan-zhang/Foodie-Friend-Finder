@@ -48,7 +48,6 @@ public class User {
         this.dob = dob;
         this.languages = languages;
         this.gender = gender;
-        this.isOnline = false;
         this.interestedRestaurants = new ArrayList<String>();
         this.interestedFoodie = "";
     }

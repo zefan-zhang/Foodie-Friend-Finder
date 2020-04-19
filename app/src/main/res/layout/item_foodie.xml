@@ -86,6 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/fullNameProfile"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="15dp"
         android:text="@string/letsDineWithButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

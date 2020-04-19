@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -47,6 +48,8 @@ public class FoodieResultActivity extends AppCompatActivity {
     private ArrayList<String> userLanguages = new ArrayList<>();
     private TextView languagesSelectedText;
 
+    private static final String TAG = FoodieResultActivity.class.getName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +61,6 @@ public class FoodieResultActivity extends AppCompatActivity {
         final List<User> matchFoodies = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference();
-
-        Switch statusToggle = findViewById(R.id.statusToggle);
 
         /*
         Get the data from fire base first, then process it for all languages.
@@ -90,7 +91,20 @@ public class FoodieResultActivity extends AppCompatActivity {
                 makeSelectDialog(languagesBank, checkedLanguages, languagesIndex, userLanguages, languagesSelectedText).show();
             }
         });
-        
+
+        Switch statusToggle = findViewById(R.id.statusToggle);
+        boolean[] switchState = {false};
+        statusToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (statusToggle.isChecked()) {
+                    switchState[0] = true;
+                } else {
+                    switchState[0] = false;
+                }
+            }
+        });
+
         Button searchButton = findViewById(R.id.searchFoodie);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +124,7 @@ public class FoodieResultActivity extends AppCompatActivity {
                             for (String restaurant : loginUser.getInterestedRestaurants()) {
                                 if (user.getInterestedRestaurants().contains(restaurant)
                                         && (!user.getUserId().equals(loginUser.getUserId()))) {
+
                                     if (!matchFoodies.contains(user)) {
                                         matchFoodies.add(user);
                                     }
@@ -118,28 +133,22 @@ public class FoodieResultActivity extends AppCompatActivity {
                         }
                         if (!isNoMatches(matchFoodies)) {
                             List<User> filteredFoodies = new ArrayList<>();
-
-//                            if (filteredFoodies.isEmpty()) {
-//                                // Display the total. This is the default action.
-//                                adapter.setFoodies(matchFoodies);
-//                            }
-
                             for (User foodie : matchFoodies) {
                                 for (String language : selectedFoodieLanguages) {
-                                    if (foodie.getLanguages().contains(language)) {
+                                    if (foodie.getLanguages().contains(language) && foodie.getOnline() == switchState[0]) {
                                         filteredFoodies.add(foodie);
                                     }
-                                    else if (!foodie.getLanguages().contains(language)) {
+                                    else if (!foodie.getLanguages().contains(language) && foodie.getOnline() == switchState[0]) {
+                                        filteredFoodies.remove(foodie);
+                                    }
+                                    else if (!foodie.getLanguages().contains(language) && foodie.getOnline() != switchState[0]) {
+                                        filteredFoodies.remove(foodie);
+                                    }
+                                    else if (foodie.getLanguages().contains(language) && foodie.getOnline() != switchState[0]) {
                                         filteredFoodies.remove(foodie);
                                     }
                                 }
                             }
-
-//                            if (!filteredFoodies.isEmpty()) {
-//                                // Display foodies based on filters. Non default action.
-//                                matchFoodies.clear();
-//                                adapter.setFoodies(filteredFoodies);
-//                            }
                             adapter.setFoodies(filteredFoodies);
                         }
                     }
@@ -212,8 +221,6 @@ public class FoodieResultActivity extends AppCompatActivity {
     public void setSelectedFoodie(String userId) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         loginUser.setInterestedFoodie(userId);
-        System.out.println(loginUser.getUserId());
-        System.out.println(userId);
         dbRef.child("Users").child(loginUser.getUserId()).child("interestedFoodie").setValue(userId);
         Toast.makeText(this, "Foodie match sent!", Toast.LENGTH_SHORT).show();
     }
@@ -231,8 +238,6 @@ public class FoodieResultActivity extends AppCompatActivity {
 
         return allLanguages.toArray(new String[0]);
     }
-
-
 
     private Dialog makeSelectDialog(final String[] itemBank, boolean[] checkedItems,
                                     final ArrayList<Integer> itemIndex,
@@ -271,4 +276,66 @@ public class FoodieResultActivity extends AppCompatActivity {
         });
         return dialogBuilder.create();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        loginUser.setOnline(false);
+        reference.child("Users").child(loginUser.getUserId()).child("online").setValue(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginUser.setOnline(true);
+        reference.child("Users").child(loginUser.getUserId()).child("online").setValue(true);
+    }
+
+//    private boolean isFoodieOnline(User foodie) {
+//    // Path where connection is stored in fb
+////    final DatabaseReference infoConnected = reference.child(".info/connected");
+//    String currentID = foodie.getUserId();
+//    DatabaseReference userRef = reference.child("Users").child(currentID).child("isOnline");
+//
+//    ArrayList<Boolean> isOnlineArray = new ArrayList<>();
+//
+//    infoConnected.addValueEventListener(new ValueEventListener() {
+//        @Override
+//        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//            boolean isConnected = dataSnapshot.getValue(Boolean.class);
+//
+//            if (isConnected) {
+//                Log.d(TAG, foodie.getUserId() + " online");
+//                // Let's us access and modify outer var
+//                // https://stackoverflow.com/questions/48154113/variable-is-accessed-within-inner-class-needs-to-be-declared-final-but-i-dont
+////                isOnlineArray[0] = true;
+//                isOnlineArray.clear();
+//                isOnlineArray.add(Boolean.TRUE);
+//                System.out.println("isOnlineArray " + isOnlineArray.get(0));
+////                userRef.onDisconnect().setValue(false);
+//
+//                userRef.onDisconnect().removeValue();
+//                userRef.setValue(true);
+//
+//                // Set the time for the user's last connection
+////                lastConnected.onDisconnect().setValue(ServerValue.TIMESTAMP);
+//            }
+//            if (!isConnected) {
+////                isOnlineArray[0] = false;
+////                foodie.setOnline(false);
+//                userRef.setValue(false);
+//                isOnlineArray.clear();
+//                isOnlineArray.add(Boolean.FALSE);
+//                Log.d(TAG, foodie.getUserId() + " offline");
+//            }
+//        }
+//
+//        @Override
+//        public void onCancelled(@NonNull DatabaseError databaseError) {
+//            System.out.println("Error" +databaseError);
+//            }
+//        });
+//        System.out.println("isOnlineArray: " + isOnlineArray.get(0));
+//        return isOnlineArray.get(0);
+//    }
 }

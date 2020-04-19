@@ -58,9 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                             if (user.getUserId().equals(usernameInput.getText().toString())) {
                                 loginUser = user;
                                 loginUser.setOnline(true);
-
                                 String currentID = loginUser.getUserId();
-                                userRef.child("Users").child(currentID).child("isOnline").setValue(true);
+                                userRef.child("Users").child(currentID).child("online").setValue(true);
                                 Toast.makeText(LoginActivity.this, "Login", Toast.LENGTH_SHORT).show();
                                 break;
                             }
