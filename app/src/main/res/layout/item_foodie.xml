@@ -62,6 +62,17 @@
         app:layout_constraintTop_toBottomOf="@+id/cuisineProfile"
         tools:text="English, Mandarin, Spanish" />
 
+    <TextView
+        android:id="@+id/restaurantsProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toEndOf="@+id/userAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/languageProfile"
+        tools:text="UNOS, FuGaKyu, Wendys" />
+
 
     <Button
         android:id="@+id/dineWithButton"
@@ -71,11 +82,11 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="#FFCDD2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/cuisineProfile"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/fullNameProfile"
-        tools:layout_editor_absoluteY="-5dp"
-        tools:text="Let's Dine!" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="15dp"
+        android:text="@string/letsDineWithButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
